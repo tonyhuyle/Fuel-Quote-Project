@@ -21,28 +21,31 @@
 		</div>
 
         <h2 class="text-2xl font-semibold mb-4">Fuel Quote History</h2>
-        <!-- Table -->
-        <table class="min-w-full bg-white border border-gray-300">
+        <table id="history" style="width:100%">
+        <style>
+             table, th, td {
+              border: 1px solid black;
+              border-collapse: collapse;
+            }
+        </style>
             <thead>
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">Gallons Requested</th>
-                    <th class="border border-gray-300 px-4 py-2">Delivery Address</th>
-                    <th class="border border-gray-300 px-4 py-2">Delivery Date</th>
-                    <th class="border border-gray-300 px-4 py-2">Suggested Price / Gallon</th>
-                    <th class="border border-gray-300 px-4 py-2">Total Amount Due</th>
+                <tr bgcolor="#D6EEEE">
+                    <th>id</th>
+                    <th>date</th>
+                    <th>address</th>
+                    <th>Gallons Requested</th>
+                    <th>Price/Gallon</th>
+                    <th>Total Amount Due</th>
                 </tr>
             </thead>
-            <tbody>
-                <!-- Add rows dynamically from the backend -->
-                <tr>
-                    <td class="border border-gray-300 px-4 py-2">100</td>
-                    <td class="border border-gray-300 px-4 py-2">123 Main St, City</td>
-                    <td class="border border-gray-300 px-4 py-2">2024-02-22</td>
-                    <td class="border border-gray-300 px-4 py-2">$2.50</td>
-                    <td class="border border-gray-300 px-4 py-2">$250.00</td>
+                <tr bgcolor="white">
+                    <th>123456789</th>
+                    <th>19 january 2038</th>
+                    <th>4434 University Drive, Houston, TX 77204</th>
+                    <th>20</th>
+                    <th>10$</th>
+                    <th>2000$</th>
                 </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
         </table>
     </div>
 </body>

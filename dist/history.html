@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Fuel Quote History</title>
+</head>
+
+<body>     
+
+    <div class="container mx-auto my-36 p-8 bg-white max-w-6xl rounded shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Fuel Quote History</h2>
+        <!-- Table -->
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 px-4 py-2">Gallons Requested</th>
+                    <th class="border border-gray-300 px-4 py-2">Delivery Address</th>
+                    <th class="border border-gray-300 px-4 py-2">Delivery Date</th>
+                    <th class="border border-gray-300 px-4 py-2">Suggested Price / Gallon</th>
+                    <th class="border border-gray-300 px-4 py-2">Total Amount Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add rows dynamically from the backend -->
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">100</td>
+                    <td class="border border-gray-300 px-4 py-2">123 Main St, City</td>
+                    <td class="border border-gray-300 px-4 py-2">2024-02-22</td>
+                    <td class="border border-gray-300 px-4 py-2">$2.50</td>
+                    <td class="border border-gray-300 px-4 py-2">$250.00</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+</body>

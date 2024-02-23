@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuelQuote</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<!--Account Management Form-->
+<body class="justify-center">
+    <div class="bg-blue-800 w-screen">
+        <ul class="h-1/2 p-5 flex">
+            <li class="block hover:bg-yellow-300 p-4"><a class = "block text-white" href="#">Home Page</a></li>
+            <li class="block hover:bg-yellow-300 p-4"><a class = "block text-white" href="#"> Gas Price Quote Module</a></li>
+            <li class="block hover:bg-yellow-300 p-4"><a class = "block text-white" href="#"> Quote history</a></li>
+            <li class="block hover:bg-yellow-300 p-4 ml-auto"><a class = "block text-white" href="#"> Sign Out</a></li>
+            <li class="block hover:bg-yellow-300 p-4 float-right"><a class = "block text-white" href="#"> Log-In</a></li>
+            <li class="block hover:bg-yellow-300 p-4 float-right"><a class = "block text-white" href="#"> Create an account</a></li>
+        </ul>
+    </div>
+
+    <div class ="ml-auto mb-auto mr-auto mt-20 bg-pink-400 justify-center" style="height:1000px; width:800px">
+        <div class ="p-5 text-2xl text-center"> Fuel Quote Form
+        </div>
+        <form>
+            <div class="m-2">
+                <h2 class="text-3xl">Gallons of Oil to request</h2>
+                <input class = "h-10 box-border border-2" type="number" required name = "gallons of Fuel" min="0" value="0" step="0.01" style="width:750px;" required>
+                <h2 class = "mt-10 text-3xl">Delivery Address</h2>
+                <input class = "h-10 box-border border-2" placeholder="123HillsLane" style="width:750px" readonly>
+                <h2 class = "mt-10 text-3xl">Delivery Date</h2>
+                <input class = "h-10 box-border border-2" type="date">
+                <h2 class="mt-10 text-3xl">Suggested Price Per Gallon</h2>
+                <input class = "h-10 box-border border-2" placeholder="Sample Price: 3.02" type="text" style="width:750px" readonly>
+                <h2 class="mt-10 text-3xl">Total Price</h2>
+                <input class = "h-10 box-border border-2" placeholder="Sample Price: 3.02" type="text" style="width:750px" readonly>
+
+
+            </div>
+        </form>
+    </div>
+</body>

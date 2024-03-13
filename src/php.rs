@@ -5,8 +5,17 @@ use rocket::get;
 use rocket::http::ContentType;
 use rocket::http::Status;
 
-pub async fn php(file: &str) -> Result<String, ()> {
-    let output = match Command::new("php").arg("-f").arg(file).output().await {
+// give a file and a Vector of arguments to pass to php
+// this does not sanitise inputs before use
+// make sure to do that before calling this function
+pub async fn gen_php(file: &str, args: Vec<&str>) -> Result<String, ()> {
+    let output = match Command::new("php")
+        .arg("-f")
+        .arg(file)
+        .args(args)
+        .output()
+        .await
+    {
         Ok(val) => val,
         Err(_) => return Err(()),
     };
@@ -25,7 +34,7 @@ pub async fn php(file: &str) -> Result<String, ()> {
 
 #[get("/test_php")]
 pub async fn test_php() -> Result<(ContentType, String), Status> {
-    match php("./test/test.php").await {
+    match gen_php("./test/test.php", vec!["uuid"]).await {
         Ok(val) => {
             return Ok((ContentType::HTML, val));
         }

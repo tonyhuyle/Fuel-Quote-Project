@@ -8,3 +8,13 @@ CREATE TABLE users (
 );
 
 
+CREATE TABLE history (
+    id UUID PRIMARY KEY,
+    owner UUID,
+    date timestamp,
+    address TEXT,
+    gallons int,
+    price real,
+    total real
+);
+

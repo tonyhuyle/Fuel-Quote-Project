@@ -25,5 +25,7 @@ pg_free_result($result);
 
 // Closing connection
 pg_close($dbconn);
+echo $argc;
+echo $argc;
 ?>
 </html>

@@ -1,2 +1,2 @@
 DROP TABLE users;
-DROP TYPE Role;
+DROP TABLE history;

@@ -38,14 +38,29 @@
                     <th>Total Amount Due</th>
                 </tr>
             </thead>
-                <tr bgcolor="white">
-                    <th>123456789</th>
-                    <th>19 january 2038</th>
-                    <th>4434 University Drive, Houston, TX 77204</th>
-                    <th>20</th>
-                    <th>10$</th>
-                    <th>2000$</th>
-                </tr>
+                    <?php
+                    // Connecting, selecting database
+                    $dbconn = pg_connect("dbname=my_project")
+                        or die('Could not connect: ' . pg_last_error());
+                    // Performing SQL query
+                    $name1 = $argv[1];    
+                    $query = "SELECT id, date, address, gallons, price, total FROM history where owner = '%s';";
+                    $query = sprintf($query, $name1);
+                    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+                    // echo $query;
+                    // Printing results in HTML
+                    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+                        echo "\t<tr bgcolor=\"white\">\n";
+                        foreach ($line as $col_value) {
+                            echo "\t\t<td>$col_value</td>\n";
+                        }
+                        echo "\t</tr>\n";
+                    }
+
+                    pg_free_result($result);
+
+                    pg_close($dbconn);
+                    ?>
         </table>
     </div>
 </body>

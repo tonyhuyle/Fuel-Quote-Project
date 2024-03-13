@@ -6,3 +6,12 @@ insert into users VALUES(
     '\xDEADBEEF'::bytea
 );
 
+insert into history VALUES(
+    gen_random_uuid(),
+    gen_random_uuid(),
+    clock_timestamp(),
+    'here',
+    10,
+    1.0,
+    10.0
+);

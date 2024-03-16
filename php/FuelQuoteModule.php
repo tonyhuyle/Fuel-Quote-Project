@@ -1,47 +1,61 @@
 <?php
-    class FuelQuote
+    class FuelQuoteModule
     {
+        private $data;
         private $gallons = 0;
         private $address = "123HillLane";
         private $date = "03/28/2024";
-        private $suggestPrice;
-        private $totalPrice;
+        private $suggestPrice = -1;
+        private $totalPrice =-1;
 
+        public function __construct($post_data)
+        {
+            $this->data = $post_data;
+            
+        }
+        public function getData()
+        {
+            return $this->data;
+        }
         public function setGallons($gal){
-            $gallons = $gal;
+            $this->gallons = $gal;
         }
         public function setAddress($addressParam){
-            $address = $addressParam;
+            $this->address = $addressParam;
         }
         public function setDate($dateParam){
-            $address = $dateParam;
+            $this->address = $dateParam;
         }
         public function setSuggestPrice($price){
-            $suggestPrice = $price;
+            $this->suggestPrice = $price;
         }
         public function setTotalPrice($price){
-            $totalprice = $price;
+            $this->totalPrice = $price;
         }
         public function getGallons()
         {
-            return $gallons;
+            return $this->gallons;
         }
         public function getAddress()
         {
-            return $address;
+            return $this->address;
         }
         public function getDate()
         {
-            return $date;
+            return $this->date;
         }
         public function getSuggestedPrice()
         {
-            return $suggestPrice;
+            return $this->suggestPrice;
         }
         public function getTotalPrice()
         {
-            return $totalPrice;
+            return $this->totalPrice;
         }
+
+    }
+    class pricingModule
+    {
 
     }
 ?>

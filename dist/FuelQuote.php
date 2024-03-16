@@ -1,4 +1,13 @@
 <?php
+    require('../php/FuelQuoteModule.php');
+    require('../php/FuelQuoteValidation.php');
+
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $Form = new FuelQuoteModule($_POST);
+        $validate = new FuelQuoteValidation($Form);
+
+    }
 
 
 ?>
@@ -26,7 +35,7 @@
         </div>
         <form>
             <div class="m-2">
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                     <h2 class="font-semibold">Gallons of Oil to request</h2>
                     <input class = "h-10 box-border border-2" type="number" required name = "gallons" min="0" value="0" step="0.01" style="width:750px;" required>
                     <h2 class = "mt-10 font-semibold">Delivery Address</h2>

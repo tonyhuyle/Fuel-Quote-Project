@@ -11,6 +11,7 @@
 <body class="bg-cover bg-center flex items-center justify-center h-screen" background=images/Refinery.jpg>
 
     <div class="max-w-md w-full p-6 bg-white rounded-md shadow-md">
+        <form action="/api/login" method="POST" enctype="multipart/form-data">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Client Portal</h2>
     
         <label for="username" class="block text-sm text-gray-500">Username:</label>
@@ -23,6 +24,7 @@
           Login
         </button>
     
+        </form>
         <p class="mt-4 text-sm text-gray-500">
           Don't have an account? <a href="register.html" class="text-blue-500">Register here</a>.
         </p>

@@ -32,6 +32,13 @@ async fn rocket() -> Rocket<Build> {
     rocket::build()
         .mount("/", routes![frontend::history::get_history])
         .mount("/", FileServer::from(relative!("dist")))
-        .mount("/api", routes![api::register::register])
+        .mount(
+            "/api",
+            routes![
+                api::register::register,
+                api::login::login,
+                api::login::logout
+            ],
+        )
         .manage(pool)
 }

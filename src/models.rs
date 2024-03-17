@@ -1,6 +1,8 @@
 use postgres::Row;
+use rocket::figment::value;
 use serde::{Deserialize, Serialize};
 use std::num::NonZeroU32;
+use std::time::SystemTime;
 use uuid::Uuid;
 
 use ring::{
@@ -23,7 +25,7 @@ static ALGORITHM: Algorithm = pbkdf2::PBKDF2_HMAC_SHA512;
 //     password_salt BYTEA NOT NULL
 // );
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct User {
     pub user_id: Uuid,
     pub username: String,
@@ -74,6 +76,45 @@ impl From<&Row> for User {
             done_setup: value.get("done_setup"),
             password_hash: value.get("password_hash"),
             password_salt: value.get("password_salt"),
+        }
+    }
+}
+// id | owner | date | address | gallons | price | total
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
+struct History {
+    pub id: Uuid,
+    pub owner: Uuid,
+    pub date: SystemTime,
+    pub address: String,
+    pub gallons: f64,
+    pub price: f64,
+    pub total: f64,
+}
+
+impl History {
+    fn new(owner: Uuid, address: String, gallons: f64, price: f64) -> Self {
+        History {
+            id: Uuid::new_v4(),
+            owner,
+            date: SystemTime::now(),
+            address,
+            gallons,
+            price,
+            total: price * gallons,
+        }
+    }
+}
+impl From<&Row> for History {
+    fn from(value: &Row) -> Self {
+        History {
+            id: value.get("id"),
+            owner: value.get("owner"),
+            date: value.get("date"),
+            address: value.get("address"),
+            gallons: value.get("gallons"),
+            price: value.get("price"),
+            total: value.get("total"),
         }
     }
 }

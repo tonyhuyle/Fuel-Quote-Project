@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>User Profile</title>
+	<link rel="stylesheet" href="../output.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body class="bg-cover bg-center flex items-center justify-center h-screen" background=../images/Refinery.jpg>
+	<div class="max-w-md w-full p-6 bg-white rounded-md shadow-md">
+		<div class="navbar">
+			<ul>
+			<li class="font-semibold text-gray-800 mb-4"><a class="active button-left">My Profile</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="../FuelQuote.html">New Quote</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="../history">View Quotes</a></li>
+			</ul>
+		</div>
+		<h2 class="text-2xl text-gray-500 mb-4">Welcome, <span class="font-semibold">{{user.username}}</span>!</h2>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="username">Username</label><br>
+			<span id="username">{{user.username}}</span>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="name">Name</label><br>
+			<span id="name">John Doe</span>
+			<button id ="edit" style="float:right" onclick="editField('name')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="address1">Address 1</label><br>
+			<span id="address1">{{user.address_1}}</span>
+			<button  id="edit" style="float:right" onclick="editField('address1')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="address2">Address 2 (optional)</label><br>
+			<span id="address2">{{user.address_2}}</span>
+			<button id="edit" style="float:right" onclick="editField('address2')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="city">City</label><br>
+			<span id="city">{{user.city}}</span>
+			<button id="edit" style="float:right" onclick="editField('city')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="province">State</label><br>
+			<span id="currentState">{{user.state}}</span>
+			<form id="stateForm" style="display: none">
+				<select id="state" name="state">
+					<option value="">---</option>
+					<option value="AL">AL</option>
+					<option value="AK">AK</option>
+					<option value="AZ">AZ</option>
+					<option value="AR">AR</option>
+					<option value="CA">CA</option>
+					<option value="CO">CO</option>
+					<option value="CT">CT</option>
+					<option value="DE">DE</option>
+					<option value="DC">DC</option>
+					<option value="FL">FL</option>
+					<option value="GA">GA</option>
+					<option value="HI">HI</option>
+					<option value="ID">ID</option>
+					<option value="IL">IL</option>
+					<option value="IN">IN</option>
+					<option value="IA">IA</option>
+					<option value="KS">KS</option>
+					<option value="KY">KY</option>
+					<option value="LA">LA</option>
+					<option value="ME">ME</option>
+					<option value="MD">MD</option>
+					<option value="MA">MA</option>
+					<option value="MI">MI</option>
+					<option value="MN">MN</option>
+					<option value="MS">MS</option>
+					<option value="MO">MO</option>
+					<option value="MT">MT</option>
+					<option value="NE">NE</option>
+					<option value="NV">NV</option>
+					<option value="NH">NH</option>
+					<option value="NJ">NJ</option>
+					<option value="NM">NM</option>
+					<option value="NY">NY</option>
+					<option value="NC">NC</option>
+					<option value="ND">ND</option>
+					<option value="OH">OH</option>
+					<option value="OK">OK</option>
+					<option value="OR">OR</option>
+					<option value="PA">PA</option>
+					<option value="RI">RI</option>
+					<option value="SC">SC</option>
+					<option value="SD">SD</option>
+					<option value="TN">TN</option>
+					<option value="TX">TX</option>
+					<option value="UT">UT</option>
+					<option value="VT">VT</option>
+					<option value="VA">VA</option>
+					<option value="WA">WA</option>
+					<option value="WV">WV</option>
+					<option value="WI">WI</option>
+					<option value="WY">WY</option>
+				</select>
+				<input style="float:right" type="submit" value="Update">
+			</form>
+			<button id="select" style="float:right">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="zip">Zip Code</label><br>
+			<span id="zip">{{user.zipcode}}</span>
+			<button id="edit" style="float:right" onclick="editField('zip')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+		<div class="block text-sm text-gray-500 p-2">
+			<label class="font-semibold" for="email">Email</label><br>
+			<span id="email">{{user.email}}</span>
+			<button id="edit" style="float:right" onclick="editField('email')">
+				<i class="fas fa-edit"></i>
+			</button>
+		</div>
+	</div>
+	<script src="profile.js"></script>
+</body>
+
+</html>

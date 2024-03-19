@@ -1,4 +1,5 @@
 <?php
+    namespace PhpFiles;
     class FuelQuoteModule
     {
         private $data;

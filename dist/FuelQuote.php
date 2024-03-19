@@ -1,15 +1,14 @@
 <?php
-    #require('../PhpFiles/FuelQuoteModule.php');
-    #require('../PhpFiles/FuelQuoteValidation.php');
+    require(__DIR__ .'/../PhpFiles/FuelQuoteModule.php');
+    require(__DIR__ .'/../PhpFiles/FuelQuoteValidation.php');
     use PhpFiles\FuelQuoteModule;
     use PhpFiles\FuelQuoteValidation;
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $Form = new FuelQuoteModule($_POST);
-        $validate = new FuelQuoteValidation($Form);
-        $this->validate->validateGallons();
-        echo empty($this->validate->errors());
+        $validate = new FuelQuoteValidation($_POST);
+        $validate->validateGallons();
+        echo empty($validate->errors());
         echo $_POST['date'];
 
     }

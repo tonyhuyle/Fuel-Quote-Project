@@ -4,18 +4,20 @@
     use PhpFiles\FuelQuoteModule;
     use PhpFiles\FuelQuoteValidation;
 
-    #if($_SERVER["REQUEST_METHOD"] == "POST")
-    #{
-        #$Form = new FuelQuoteModule($_POST);
-        #$validate = new FuelQuoteValidation($Form);
-        #$this->validate->validateGallons();
-        #echo empty($this->validate->errors());
-     #   echo $_POST['date'];
+    if($_SERVER["REQUEST_METHOD"] == "POST")
+    {
+        $Form = new FuelQuoteModule($_POST);
+        $validate = new FuelQuoteValidation($Form);
+        $this->validate->validateGallons();
+        echo empty($this->validate->errors());
+        echo $_POST['date'];
 
-    #}
+    }
     if(isset($_POST['submit'])){
         echo 'form submitted';
+
     }
+
 
 ?>
 

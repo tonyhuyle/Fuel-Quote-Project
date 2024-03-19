@@ -2,14 +2,14 @@
 #include __DIR__ . '/../PhpFiles/FuelQuoteModule.php';
 #include __DIR__ . '/../PhpFiles/FuelQuoteValidation.php';
 use PhpFiles\FuelQuoteModule;
-use PhpFiles\FuelQuoteValidation;
+use PhpFiles\FuelQuoteValidation as Validation;
 class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
 {
     public function test_if_valid_validate_gallons(){
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"2024-03-20");
-        $test_Validation = new FuelQuoteValidation($example_post_data);
+        $test_Validation = new Validation($example_post_data);
         $test_Validation->validateGallons();
 
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['gallons'] ?? "General Error Message");
@@ -19,7 +19,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"Obviously Invalid",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"2024-03-20");
-        $test_Validation2 = new FuelQuoteValidation($example_post_data);
+        $test_Validation2 = new Validation($example_post_data);
         //When we validate the gallons field, 
         $test_Validation2->validateGallons();
         //We expect that the errors array contained in the $test_Validation object to be NOT EMPTY as our validation method would've logged an error message!
@@ -30,7 +30,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"2024-03-20");
-        $test_Validation2 = new FuelQuoteValidation($example_post_data);
+        $test_Validation2 = new Validation($example_post_data);
         //When we validate the gallons field, 
         $test_Validation2->validateGallons();
         //We expect that the errors array contained in the $test_Validation object to be NOT EMPTY as our validation method would've logged an error message!
@@ -41,7 +41,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"");
-        $test_Validation3 = new FuelQuoteValidation($example_post_data);
+        $test_Validation3 = new Validation($example_post_data);
         $test_Validation3->validateDate();
         $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");
     }
@@ -50,7 +50,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"2024-03-20");
-        $test_Validation = new FuelQuoteValidation($example_post_data);
+        $test_Validation = new Validation($example_post_data);
         $test_Validation->validateDate();
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['date'] ?? "General Date Error Message");
     }
@@ -59,7 +59,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"1000-03-01");
-        $test_Validation3 = new FuelQuoteValidation($example_post_data);
+        $test_Validation3 = new Validation($example_post_data);
         $test_Validation3->validateDate();
         $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");
     }

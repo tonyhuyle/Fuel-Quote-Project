@@ -1,4 +1,28 @@
+ <?php
+	session_start();
+	use PhpFiles\userProfile; 
 
+	// Check if the user is authenticated
+	if(!isset($_SESSION['username'])) 
+	{ 
+		// Redirect to login page if not
+		header("Location: ../login.php");
+		exit();
+	}
+	else
+	{
+		//hardcode session variable 
+		$_SESSION['username'] = "JohnDoe123";
+		// Create a new user profile object
+		$user = new userProfile($_SESSION['username']);
+	}
+
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		// Update the user's profile information 
+		$user->updateProfile($_POST['name'], $_POST['email'], $_POST['address1'], $_POST['address2'], $_POST['city'], $_POST['state'], $_POST['zip']);
+		header("Refresh:0");
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,44 +43,53 @@
 			</ul>
 		</div>
 		<h2 class="text-2xl text-gray-500 mb-4">Welcome, <span class="font-semibold">John Doe</span>!</h2>
-		<div class="block text-sm text-gray-500 p-2">
+		<div class="block text-sm text-gray-500 p-2" id="showProfile">
 			<label class="font-semibold" for="username">Username</label><br>
-			<span id="username">JohnDoe123</span>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
+			<span id="username"><?php echo $user->getUsername()?></span><br><br>
+
 			<label class="font-semibold" for="name">Name</label><br>
-			<span id="name">John Doe</span>
-			<button id ="edit" style="float:right" onclick="editField('name')">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
+			<span id="name"><?php echo $user->getName()?></span><br><br>
+
+			<label class="font-semibold" for="email">Email</label><br>
+			<span id="email"><?php echo $user->getEmail()?></span><br><br>
+
 			<label class="font-semibold" for="address1">Address 1</label><br>
-			<span id="address1">123 main street</span>
-			<button  id="edit" style="float:right" onclick="editField('address1')">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
+			<span id="address1"><?php echo $user->getAddress1()?></span><br><br>
+
 			<label class="font-semibold" for="address2">Address 2 (optional)</label><br>
-			<span id="address2">Unit 456</span>
-			<button id="edit" style="float:right" onclick="editField('address2')">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
+			<span id="address2"><?php echo $user->getAddress2()?></span><br><br>
+
 			<label class="font-semibold" for="city">City</label><br>
-			<span id="city">New York City</span>
-			<button id="edit" style="float:right" onclick="editField('city')">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
+			<span id="city"><?php echo $user->getCity()?></span><br><br>
+
 			<label class="font-semibold" for="province">State</label><br>
-			<span id="currentState">NY</span>
-			<form id="stateForm" style="display: none">
-				<select id="state" name="state">
-					<option value="">---</option>
+			<span id="currentState"><?php echo $user->getState()?></span><br><br>
+
+			<label class="font-semibold" for="zip">Zip Code</label><br>
+			<span id="zip"><?php echo $user->getZip()?></span><br><br>
+
+			<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md" onclick="toggleEdit()"> Edit Profile </button>
+		</div>
+
+		<div class="hidden text-sm text-gray-500 p-2" id="editProfile">
+			<form method="POST" id="profileEdit">
+				<label class="font-semibold" for="name">Name</label><br>
+				<input type="text" id="name" class="w-full p-2 border border-gray-300 rounded-md" value="John Doe"><br><br>
+
+				<label class="font-semibold" for="email">Email</label><br>
+				<input type="email" id="email" class="w-full p-2 border border-gray-300 rounded-md" value="johndoe@example.com"><br><br>
+
+				<label class="font-semibold" for="address1">Address 1</label><br>
+				<input type="text" id="address1" class="w-full p-2 border border-gray-300 rounded-md" value="123 main street"><br><br>
+
+				<label class="font-semibold" for="address2">Address 2 (optional)</label><br>
+				<input type="text" id="address2" class="w-full p-2 border border-gray-300 rounded-md" value="Unit 456"><br><br>
+
+				<label class="font-semibold" for="city">City</label><br>
+				<input type="text" id="city" class="w-full p-2 border border-gray-300 rounded-md" value="New York City"><br><br>
+
+				<label class="font-semibold" for="state">State</label><br>
+				<select id="state" class="w-full p-2 border border-gray-300 rounded-md">
 					<option value="AL">AL</option>
 					<option value="AK">AK</option>
 					<option value="AZ">AZ</option>
@@ -65,7 +98,6 @@
 					<option value="CO">CO</option>
 					<option value="CT">CT</option>
 					<option value="DE">DE</option>
-					<option value="DC">DC</option>
 					<option value="FL">FL</option>
 					<option value="GA">GA</option>
 					<option value="HI">HI</option>
@@ -108,26 +140,12 @@
 					<option value="WV">WV</option>
 					<option value="WI">WI</option>
 					<option value="WY">WY</option>
-				</select>
-				<input style="float:right" type="submit" value="Update">
-			</form>
-			<button id="select" style="float:right">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
-			<label class="font-semibold" for="zip">Zip Code</label><br>
-			<span id="zip">10001</span>
-			<button id="edit" style="float:right" onclick="editField('zip')">
-				<i class="fas fa-edit"></i>
-			</button>
-		</div>
-		<div class="block text-sm text-gray-500 p-2">
-			<label class="font-semibold" for="email">Email</label><br>
-			<span id="email">john.doe@example.com</span>
-			<button id="edit" style="float:right" onclick="editField('email')">
-				<i class="fas fa-edit"></i>
-			</button>
+				</select><br><br>
+
+				<label class="font-semibold" for="zip">Zip Code</label><br>
+				<input type="text" id="zip" class="w-full p-2 border border-gray-300 rounded-md" value="10001"><br><br>
+
+				<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md" onclick="validateProfile()">Save</button>
 		</div>
 	</div>
 	<script src="profile.js"></script>

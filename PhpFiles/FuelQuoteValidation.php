@@ -1,7 +1,7 @@
 <?php
     namespace PhpFiles;
     #require __DIR__ . "/FuelQuoteModule.php";
-    use PhpFiles\FuelQuoteModule;
+    use PhpFiles\FuelQuoteModule as Module;
 
     class FuelQuoteValidation
     {

@@ -1,15 +1,14 @@
 <?php
-    #require('../PhpFiles/FuelQuoteModule.php');
-    #require('../PhpFiles/FuelQuoteValidation.php');
+    require(__DIR__ .'/../PhpFiles/FuelQuoteModule.php');
+    require(__DIR__ .'/../PhpFiles/FuelQuoteValidation.php');
     use PhpFiles\FuelQuoteModule;
     use PhpFiles\FuelQuoteValidation;
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $Form = new FuelQuoteModule($_POST);
-        $validate = new FuelQuoteValidation($Form);
-        $this->validate->validateGallons();
-        echo empty($this->validate->errors());
+        $validate = new FuelQuoteValidation($_POST);
+        $validate->validateGallons();
+        echo empty($validate->errors());
         echo $_POST['date'];
 
     }
@@ -42,11 +41,10 @@
 		</div>
         <div class ="p-2 text-2xl text-center"> Fuel Quote Form
         </div>
-        <form>
             <div class="m-2">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                     <h2 class="font-semibold">Gallons of Oil to request</h2>
-                    <input class = "h-10 box-border border-2" type="number" required name = "gallons" min="0" value="0" step="0.01" style="width:750px;" required>
+                    <input class = "h-10 box-border border-2" type="number" required name = "gallons" min="0" value="0" step="0.01" style="width:750px;">
                     <h2 class = "mt-10 font-semibold">Delivery Address</h2>
                     <input class = "h-10 box-border border-2" placeholder="123HillsLane" name = address style="width:750px">
                     <h2 class = "mt-10 font-semibold">Delivery Date</h2>
@@ -58,6 +56,5 @@
                     <input type = "submit" value="submit" name="submit" class="rounded shadow-md block p-3">
                 </form>
             </div>
-        </form>
     </div>
 </body>

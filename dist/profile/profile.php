@@ -1,25 +1,34 @@
  <?php
  	require( __DIR__ . '/../../PhpFiles/profileManagement.php');
 	use PhpFiles\userProfile; 
+	use PhpFiles\profileValidation;
 	// hardcode session variable
 	$_SESSION['username'] = "JohnDoe123";
 	// Check if the user is authenticated
-	if(!isset($_SESSION['username'])) 
-	{ 
+	if(!isset($_SESSION['username'])) { 
 		// Redirect to login page if not
 		header("Location: ../login.php");
 		exit();
 	}
-	else
-	{	
+	else {	
 		// Create a new user profile object
 		$user = new userProfile($_SESSION['username']);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		// Update the user's profile information 
-		$user->updateProfile($_POST['name'], $_POST['email'], $_POST['address1'], $_POST['address2'], $_POST['city'], $_POST['state'], $_POST['zip']);
-		header("Refresh:0");
+		$validate = new profileValidation($_POST);
+		$validate->is_valid();
+		$errors = $validate->errors();
+		if(!empty($errors))
+		{
+			echo "Errors found";
+			exit();
+		}
+		else{
+			$user->updateProfile($_POST['name'], $_POST['email'], $_POST['address1'], $_POST['address2'], $_POST['city'], $_POST['state'], $_POST['zip']);
+			header("Refresh:0");
+		}
 	}
 ?>
 <!DOCTYPE html>
@@ -29,7 +38,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>User Profile</title>
 	<link rel="stylesheet" href="../output.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body class="bg-cover bg-center flex items-center justify-center h-screen" background=../images/Refinery.jpg>

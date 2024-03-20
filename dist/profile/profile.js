@@ -40,7 +40,7 @@ function validateProfile() {
 			editError.innerHTML = 'Please fill out all required fields.';
 			isValid = false;
 		}
-		if(name.length > 50 || !isNaN(name)) {
+		if(name.length > 50 || !isNaN(name) || containsNumbers(name)) {
 			nameError.innerHTML = 'Please enter a valid name.';
 			isValid = false;
 		}
@@ -52,7 +52,7 @@ function validateProfile() {
 			address2Error.innerHTML = 'Please enter a valid address.';
 			isValid = false;
 		}
-		if(city.length > 100 || !isNaN(city)) {
+		if(city.length > 100 || !isNaN(city) || containsNumbers(city)) {
 			cityError.innerHTML = 'Please enter a valid city.';
 			isValid = false;
 		}
@@ -73,4 +73,9 @@ function validateProfile() {
 function validateEmail(email) {
 	var re = /\S+@\S+\.\S+/;
 	return re.test(email);
+}
+
+function containsNumbers(str) {
+	var regex = /\d/g;
+	return regex.test(str);
 }

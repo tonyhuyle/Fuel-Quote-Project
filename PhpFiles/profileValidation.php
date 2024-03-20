@@ -26,7 +26,6 @@ class profileValidation
                 return;
             }
         }
-        $this->validateUsername();
         $this->validateName();
         $this->validateAddress1();
         $this->validateAddress2();
@@ -37,30 +36,21 @@ class profileValidation
         return $this->errors();
 
     }
-    public function validateUsername()
-    {
-        $regex = "/^[a-zA-Z0-9]+$/";
-        $value = trim($this->profile['username'] ?? "");
-        if(empty($value))
-        {
-            $this->appendErrors('username', "There needs to be a username submitted");
-        }
-        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
-        {
-            $this->appendErrors('username', "There needs to be a username submitted in the form of alphanumeric characters");
-        }
-    }
     public function validateName()
     {
         $regex = "/^[a-zA-Z]+$/";
         $value = trim($this->profile['name'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('name', "There needs to be a name submitted");
+            $this->appendErrors('name', "Name cannot be empty");
         }
-        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 50)
+        else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('name', "There needs to be a name submitted in the form of alphabetical characters");
+            $this->appendErrors('name', "Name can only contain alphabetical characters");
+        }
+        else if(strlen($value) < 5 || strlen($value) > 100)
+        {
+            $this->appendErrors('name', "Name must be between 5 and 100 characters");
         }
     }
     public function validateAddress1()
@@ -69,20 +59,28 @@ class profileValidation
         $value = trim($this->profile['address1'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('address1', "There needs to be an address submitted");
+            $this->appendErrors('address1', "Address cannot be empty");
         }
-        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
+        else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('address1', "There needs to be an address submitted in the form of alphanumeric characters");
+            $this->appendErrors('address1', "Invalid address format, please use alphanumeric characters");
+        }
+        else if(strlen($value) < 5 || strlen($value) > 100)
+        {
+            $this->appendErrors('address1', "Address must be between 5 and 100 characters");
         }
     }
     public function validateAddress2()
     {
         $regex = "/^[a-zA-Z0-9]+$/";
         $value = trim($this->profile['address2'] ?? "");
-        if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
+        if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('address2', "There needs to be an address submitted in the form of alphanumeric characters");
+            $this->appendErrors('address2', "Invalid address format, please use alphanumeric characters");
+        }
+        else if(strlen($value) > 100 || strlen($value) < 5)
+        {
+            $this->appendErrors('address2', "Address must be between 5 and 100 characters");
         }
     }
     public function validateCity()
@@ -91,11 +89,15 @@ class profileValidation
         $value = trim($this->profile['city'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('city', "There needs to be a city submitted");
+            $this->appendErrors('city', "City cannot be empty");
         }
-        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
+        else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('city', "There needs to be a city submitted in the form of alphabetical characters");
+            $this->appendErrors('city', "City can only contain alphabetical characters");
+        }
+        else if(strlen($value) < 5 || strlen($value) > 100)
+        {
+            $this->appendErrors('city', "City must be between 5 and 100 characters");
         }
     }
     public function validateState()
@@ -104,11 +106,15 @@ class profileValidation
         $value = trim($this->profile['state'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('state', "There needs to be a state submitted");
+            $this->appendErrors('state', "State cannot be empty");
         }
-        else if(!(preg_match($regex, $value)) || strlen($value) != 2)
+        else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('state', "There needs to be a state submitted in the form of alphabetical characters");
+            $this->appendErrors('state', "Invalid state format");
+        }
+        else if(strlen($value) != 2)
+        {
+            $this->appendErrors('state', "State must be 2 characters");
         }
     }
     public function validateZip()
@@ -117,11 +123,15 @@ class profileValidation
         $value = trim($this->profile['zip'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('zip', "There needs to be a zip code submitted");
+            $this->appendErrors('zip', "Zip code cannot be empty");
         }
-        else if(!(preg_match($regex, $value)) || strlen($value) > 9 || strlen($value) < 5)
+        else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('zip', "There needs to be a zip code submitted in the form of numerical characters");
+            $this->appendErrors('zip', "Invalid zip code format, please use numeric characters");
+        }
+        else if(strlen($value) > 9 || strlen($value) < 5)
+        {
+            $this->appendErrors('zip', "Zip code must be between 5 and 9 digits");
         }
     }
     public function validateEmail()
@@ -130,11 +140,11 @@ class profileValidation
         $value = trim($this->profile['email'] ?? "");
         if(empty($value))
         {
-            $this->appendErrors('email', "There needs to be an email submitted");
+            $this->appendErrors('email', "Email cannot be empty");
         }
         else if(!(preg_match($regex, $value)))
         {
-            $this->appendErrors('email', "There needs to be an email submitted in the form of alphanumeric characters");
+            $this->appendErrors('email', "Invalid email format");
         }
     }
     private function appendErrors($key, $message)

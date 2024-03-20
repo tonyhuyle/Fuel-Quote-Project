@@ -45,7 +45,7 @@ class profileValidation
         {
             $this->appendErrors('username', "There needs to be a username submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
         {
             $this->appendErrors('username', "There needs to be a username submitted in the form of alphanumeric characters");
         }
@@ -58,7 +58,7 @@ class profileValidation
         {
             $this->appendErrors('name', "There needs to be a name submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 50)
         {
             $this->appendErrors('name', "There needs to be a name submitted in the form of alphabetical characters");
         }
@@ -71,7 +71,7 @@ class profileValidation
         {
             $this->appendErrors('address1', "There needs to be an address submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
         {
             $this->appendErrors('address1', "There needs to be an address submitted in the form of alphanumeric characters");
         }
@@ -80,8 +80,7 @@ class profileValidation
     {
         $regex = "/^[a-zA-Z0-9]+$/";
         $value = trim($this->profile['address2'] ?? "");
-
-        if(!(preg_match($regex, $value)))
+        if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
         {
             $this->appendErrors('address2', "There needs to be an address submitted in the form of alphanumeric characters");
         }
@@ -94,7 +93,7 @@ class profileValidation
         {
             $this->appendErrors('city', "There needs to be a city submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) < 5 || strlen($value) > 100)
         {
             $this->appendErrors('city', "There needs to be a city submitted in the form of alphabetical characters");
         }
@@ -107,7 +106,7 @@ class profileValidation
         {
             $this->appendErrors('state', "There needs to be a state submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) != 2)
         {
             $this->appendErrors('state', "There needs to be a state submitted in the form of alphabetical characters");
         }
@@ -120,7 +119,7 @@ class profileValidation
         {
             $this->appendErrors('zip', "There needs to be a zip code submitted");
         }
-        else if(!(preg_match($regex, $value)))
+        else if(!(preg_match($regex, $value)) || strlen($value) > 9 || strlen($value) < 5)
         {
             $this->appendErrors('zip', "There needs to be a zip code submitted in the form of numerical characters");
         }
@@ -143,4 +142,3 @@ class profileValidation
         $this->errors[$key] = $message;
     }
 }
-?>

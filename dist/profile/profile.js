@@ -17,46 +17,60 @@ function validateProfile() {
 		var state = document.getElementById('state').value;
 		var zip = document.getElementById('zip').value;
 
-		isValid = true;
+		var editError = document.getElementById('editError');
+		var nameError = document.getElementById('nameError');
+		var emailError = document.getElementById('emailError');
+		var address1Error = document.getElementById('address1Error');
+		var address2Error = document.getElementById('address2Error');
+		var cityError = document.getElementById('cityError');
+		var stateError = document.getElementById('stateError');
+		var zipError = document.getElementById('zipError');
+
+		editError.innerHTML = '';
+		nameError.innerHTML = '';
+		emailError.innerHTML = '';
+		address1Error.innerHTML = '';
+		address2Error.innerHTML = '';
+		cityError.innerHTML = '';
+		stateError.innerHTML = '';
+		zipError.innerHTML = '';
+
+		var isValid = true;
 		if(name == '' || email == '' || address1 == '' || city == '' || state == '' || zip == '') {
-			alert('Please fill out all required fields.');
+			editError.innerHTML = 'Please fill out all required fields.';
 			isValid = false;
 		}
 		if(name.length > 50 || !isNaN(name)) {
-			alert('Please enter a valid name.');
+			nameError.innerHTML = 'Please enter a valid name.';
 			isValid = false;
 		}
 		if(address1.length > 100) {
-			alert('Please enter a valid address.');
+			address1Error.innerHTML = 'Please enter a valid address.';
 			isValid = false;
 		}
 		if(address2.length > 100) {
-			alert('Please enter a valid address.');
+			address2Error.innerHTML = 'Please enter a valid address.';
 			isValid = false;
 		}
 		if(city.length > 100 || !isNaN(city)) {
-			alert('Please enter a valid city.');
+			cityError.innerHTML = 'Please enter a valid city.';
 			isValid = false;
 		}
 		if(zip.length > 9 || isNaN(zip)) {
-			alert('Please enter a valid zip code.');
+			zipError.innerHTML = 'Please enter a valid zip code.';
 			isValid = false;
 		}
 		if(!validateEmail(email)) {
-			alert('Please enter a valid email address.');
+			emailError.innerHTML = 'Please enter a valid email address.';
 			isValid = false;
 		}
 		if(isValid) {
-			var profileDiv = document.getElementById('showProfile');
-			var editProfileDiv = document.getElementById('editProfile');
-			profileDiv.classList.toggle('hidden');
-			editProfileDiv.classList.toggle('hidden');
-			document.getElementById('profileEdit').submit();
+			this.submit();
 		}
 	});
 }
 
 function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+	var re = /\S+@\S+\.\S+/;
+	return re.test(email);
 }

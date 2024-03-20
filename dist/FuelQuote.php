@@ -34,7 +34,7 @@
     <div class="container mx-auto my-36 p-6 bg-white max-w-6xl rounded shadow-md">
         <div class="navbar">
 			<ul>
-			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.html" class="button-left">My Profile</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.php" class="button-left">My Profile</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="history.html">View Quotes</a></li>
 			</ul>

@@ -1,7 +1,8 @@
  <?php
-	session_start();
+ 	require( __DIR__ . '/../../PhpFiles/profileManagement.php');
 	use PhpFiles\userProfile; 
-
+	// hardcode session variable
+	$_SESSION['username'] = "JohnDoe123";
 	// Check if the user is authenticated
 	if(!isset($_SESSION['username'])) 
 	{ 
@@ -10,9 +11,7 @@
 		exit();
 	}
 	else
-	{
-		//hardcode session variable 
-		$_SESSION['username'] = "JohnDoe123";
+	{	
 		// Create a new user profile object
 		$user = new userProfile($_SESSION['username']);
 	}
@@ -38,12 +37,12 @@
 		<div class="navbar">
 			<ul>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active button-left">My Profile</a></li>
-			<li class="font-semibold text-gray-800 mb-4"><a href="../FuelQuote.html">New Quote</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="../FuelQuote.php">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="../history.html">View Quotes</a></li>
 			</ul>
 		</div>
-		<h2 class="text-2xl text-gray-500 mb-4">Welcome, <span class="font-semibold">John Doe</span>!</h2>
-		<div class="block text-sm text-gray-500 p-2" id="showProfile">
+		<h2 class="text-2xl mb-4">Welcome, <span class="font-semibold">John Doe</span>!</h2>
+		<div class="block text-sm p-2" id="showProfile">
 			<label class="font-semibold" for="username">Username</label><br>
 			<span id="username"><?php echo $user->getUsername()?></span><br><br>
 
@@ -68,25 +67,31 @@
 			<label class="font-semibold" for="zip">Zip Code</label><br>
 			<span id="zip"><?php echo $user->getZip()?></span><br><br>
 
-			<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md" onclick="toggleEdit()"> Edit Profile </button>
+			<button class="rounded shadow-md block p-3" onclick="toggleEdit()"> Edit Profile </button>
 		</div>
 
-		<div class="hidden text-sm text-gray-500 p-2" id="editProfile">
-			<form method="POST" id="profileEdit">
+		<div class="hidden text-sm p-2" id="editProfile">
+			<span id="editError" class="text-red-500"></span><br>
+			<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 				<label class="font-semibold" for="name">Name</label><br>
-				<input type="text" id="name" class="w-full p-2 border border-gray-300 rounded-md" value="John Doe"><br><br>
+				<input type="text" id="name" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getName()?>"><br>
+				<span id="nameError" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="email">Email</label><br>
-				<input type="email" id="email" class="w-full p-2 border border-gray-300 rounded-md" value="johndoe@example.com"><br><br>
+				<input type="email" id="email" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getEmail()?>"><br>
+				<span id="emailError" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="address1">Address 1</label><br>
-				<input type="text" id="address1" class="w-full p-2 border border-gray-300 rounded-md" value="123 main street"><br><br>
+				<input type="text" id="address1" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getAddress1()?>"><br>
+				<span id="address1Error" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="address2">Address 2 (optional)</label><br>
-				<input type="text" id="address2" class="w-full p-2 border border-gray-300 rounded-md" value="Unit 456"><br><br>
+				<input type="text" id="address2" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getAddress2()?>"><br>
+				<span id="address2Error" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="city">City</label><br>
-				<input type="text" id="city" class="w-full p-2 border border-gray-300 rounded-md" value="New York City"><br><br>
+				<input type="text" id="city" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getCity()?>"><br>
+				<span id="cityError" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="state">State</label><br>
 				<select id="state" class="w-full p-2 border border-gray-300 rounded-md">
@@ -140,12 +145,15 @@
 					<option value="WV">WV</option>
 					<option value="WI">WI</option>
 					<option value="WY">WY</option>
-				</select><br><br>
+				</select><br>
+				<span id="stateError" class="text-red-500"></span><br>
 
 				<label class="font-semibold" for="zip">Zip Code</label><br>
-				<input type="text" id="zip" class="w-full p-2 border border-gray-300 rounded-md" value="10001"><br><br>
+				<input type="text" id="zip" class="w-full p-2 border border-gray-300 rounded-md" value="<?php echo $user->getZip()?>"><br>
+				<span id="zipError" class="text-red-500"></span><br>
 
-				<button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md" onclick="validateProfile()">Save</button>
+				<input type="submit" value="Submit" class="rounded shadow-md block p-3" onclick="validateProfile()">
+			</form>
 		</div>
 	</div>
 	<script src="profile.js"></script>

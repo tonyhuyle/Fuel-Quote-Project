@@ -38,7 +38,7 @@ class profileValidation
     }
     public function validateName()
     {
-        $regex = "/^[a-zA-Z]+$/";
+        $regex = "/^[a-zA-Z\s]+$/";
         $value = trim($this->profile['name'] ?? "");
         if(empty($value))
         {
@@ -55,7 +55,7 @@ class profileValidation
     }
     public function validateAddress1()
     {
-        $regex = "/^[a-zA-Z0-9]+$/";
+        $regex = "/^[a-zA-Z0-9\s]+$/";
         $value = trim($this->profile['address1'] ?? "");
         if(empty($value))
         {
@@ -72,7 +72,7 @@ class profileValidation
     }
     public function validateAddress2()
     {
-        $regex = "/^[a-zA-Z0-9]+$/";
+        $regex = "/^[a-zA-Z0-9\s]+$/";
         $value = trim($this->profile['address2'] ?? "");
         if(!(preg_match($regex, $value)))
         {
@@ -85,7 +85,7 @@ class profileValidation
     }
     public function validateCity()
     {
-        $regex = "/^[a-zA-Z]+$/";
+        $regex = "/^[a-zA-Z\s]+$/";
         $value = trim($this->profile['city'] ?? "");
         if(empty($value))
         {

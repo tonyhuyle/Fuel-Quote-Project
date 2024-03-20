@@ -71,7 +71,7 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
 
     public function test_if_invalid_validate_address1(){
         $example_post_data = array("name"=>"John Doe",
-                                   "address1"=>"123 main street 123",
+                                   "address1"=>"123 main street*&%^*",
                                    "address2"=>"Unit 456",
                                    "city"=>"New York City",
                                    "state"=>"NY",
@@ -340,4 +340,5 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation->validateEmail();
         $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['email'] ?? "General Error Message");
     }
+
 }

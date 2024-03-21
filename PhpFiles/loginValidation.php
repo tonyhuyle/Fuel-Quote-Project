@@ -19,12 +19,11 @@ class loginValidation
 
         public function is_valid()
         {
-            foreach(self::$fields as $field)
+            foreach($this->fields as $field)
             {
                 if(!array_key_exists($field, $this->login))
                 {
-                    trigger_error("$field is not present in data");
-                    return;
+                    $this->appendErrors($field, "$field is not present in data");
                 }
             }
             $this->validateUsername();
@@ -33,42 +32,35 @@ class loginValidation
 
         }
 
-        public function validateUsername() {
-            if(isset($_POST['username'])) {
-                function validate  ($data) {
-                    $data = trim($data);
-                    $data = stripslashes($data);
-                    $data = htmlspecialchars($data);
-                    return $data;
-                }    
-            } 
+        public function validateUsername()
+    {
+        $regex = "/^[a-zA-Z\s]+$/";
+        $value = trim($this->login['username'] ?? "");
 
-            if(empty($username)) {
-                header("Location: login.php?error= Username is required");
-                $this->appendErrors('username', "Username is required");
-                exit();
-        }
+        if (empty($value)) {
+            $this->appendErrors('username', "Username cannot be empty");
+        } 
     }
 
-    public function validatepassword() {
-        if(isset($_POST['password'])) {
-            function validate  ($data) {
-                    $data = trim($data);
-                    $data = stripslashes($data);
-                    $data = htmlspecialchars($data);
-                    return $data;
-                }    
-            } 
+    public function validatePassword()
+    {
+        if (empty($value)) {
+            $this->appendErrors('password', "Password cannot be empty");
+        } 
 
-            if(empty($password)) {
-                header("Location: login.php?error= Password is required");
-                $this->appendErrors('password', "Password is required");
-                exit();
-            } 
+        // Retrieve the password from $this->login and compare it with the stored hash
+        $enteredPassword = $this->login['password'] ?? "";
+        $storedHashedPassword = ""; // Fetch the hashed password from your database based on the provided username/email
+
+        if (!$storedHashedPassword) {
+            $this->appendErrors('password', "Invalid username or password."); // Inform the user that either the username or password is invalid
+            return;
         }
-
         
-
+        if (!password_verify($enteredPassword, $storedHashedPassword)) {
+            $this->appendErrors('password', "Invalid password.");
+        }
+    }
     public function appendErrors($field, $message) {
         $this->errors[$field] = $message;
     }

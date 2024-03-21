@@ -19,35 +19,65 @@ class registerValidation
 
         public function is_valid()
         {
-            foreach(self::$fields as $field)
+            foreach($this->fields as $field)
             {
                 if(!array_key_exists($field, $this->register))
                 {
-                    trigger_error("$field is not present in data");
-                    return;
+                    $this->appendErrors($field, "$field is not present in data");
                 }
             }
-            $this->validateUsername($this->register['username']); // Pass username to validation method
-            $this->validatePassword($this->register['password']); // Pass password to validation method
+            $this->validateUsername(); // Pass username to validation method
+            $this->validatePassword(); // Pass password to validation method
             $this->validateConf_Pass($this->register['password'], $this->register['confirmPassword']); // Pass both passwords to validation method
-            return empty($this->errors); // Return true if there are no errors
+            return $this->errors();
         }
         
-        public function validateUsername($username) // Add $username parameter
+        public function validateUsername() // Add $username parameter
         {
-            // Username validation rules
-            if(!preg_match('/^[a-zA-Z0-9]{4,}$/', $username)) // Use $username parameter
+                $regex = "/^[a-zA-Z\s]+$/";
+            $value = trim($this->register['username'] ?? "");
+
+            if (empty($value)) {
+                $this->appendErrors('username', "Username cannot be empty");
+            } 
+            elseif (!preg_match($regex, $value)) 
             {
-                $this->appendErrors('username', "Username must be at least 4 characters long and contain only alphanumeric characters");
+                $this->appendErrors('username', "Username can only contain alphabetical characters");
+            } 
+            elseif (strlen($value) < 3 || strlen($value) > 20) 
+            {
+                $this->appendErrors('username', "Username must be between 3 and 20 characters long.");
             }
         }
     
-        public function validatePassword($password) // Add $password parameter
+        public function validatePassword() // Add $password parameter
         {
-            // Password validation rules
-            if(strlen($password) < 8) // Use $password parameter
+                $regex = "/^[a-zA-Z0-9\s]+$/";
+            $value = trim($this->register['password'] ?? "");
+
+            if (empty($value)) {
+                $this->appendErrors('password', "Password cannot be empty");
+
+            } 
+            elseif (!preg_match($regex, $value)) 
             {
-                $this->appendErrors('password', "Password must be at least 8 characters long");
+                $this->appendErrors('password', "Password contains invalid characters");
+            } 
+            elseif (!preg_match('/[A-Z]/', $value)) 
+            {
+                $this->appendErrors('password', "Password must contain at least one uppercase letter.");
+            } 
+            elseif (!preg_match('/\d/', $value)) 
+            {
+                $this->appendErrors('password', "Password must contain at least one digit.");
+            } 
+            elseif (strlen($value) < 8) 
+            {
+                $this->appendErrors('password', "Password must be at least 8 characters long.");
+            } 
+            elseif (!preg_match('/[^\w\s]/', $value)) 
+            {
+                $this->appendErrors('password', "Password must contain at least one special character.");
             }
         }
     

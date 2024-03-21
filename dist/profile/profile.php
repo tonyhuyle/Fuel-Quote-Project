@@ -46,7 +46,7 @@
 			<ul>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active button-left">My Profile</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="../FuelQuote.php">New Quote</a></li>
-			<li class="font-semibold text-gray-800 mb-4"><a href="../history.html">View Quotes</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="../history.php">View Quotes</a></li>
 			</ul>
 		</div>
 		<h2 class="text-2xl mb-4">Welcome, <span class="font-semibold">John Doe</span>!</h2>

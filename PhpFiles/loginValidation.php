@@ -40,6 +40,16 @@ class loginValidation
         if (empty($value)) {
             $this->appendErrors('username', "Username cannot be empty");
         } 
+
+        elseif (!preg_match($regex, $value)) 
+            {
+                $this->appendErrors('username', "Username can only contain alphabetical characters");
+            } 
+        
+        elseif (strlen($value) < 3 || strlen($value) > 20) 
+            {
+                $this->appendErrors('username', "Username must be between 3 and 20 characters long.");
+            }
     }
 
     public function validatePassword()

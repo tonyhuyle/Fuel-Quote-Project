@@ -20,19 +20,21 @@
         }
         public function is_valid()
         {
-            foreach(self::$fields as $field)
+            foreach($this->fields as $field)
             {
                 if(!array_key_exists($field, $this->FuelQuote))
                 {
-                    trigger_error("$field is not present in data");
-                    return;
+                    $this->appendErrors($field, "$field is not present in data");
                 }
             }
-            $this->validateGallons();
-            $this->validateAddress();
-            $this->validateDate();
+            if(empty($this->errors()))
+            {
+                $this->validateGallons();
+                $this->validateAddress();
+                $this->validateDate();
+                return $this->errors();
+            }
             return $this->errors();
-
         }
         public function validateGallons()
         {
@@ -64,10 +66,10 @@
             if(preg_match($regex, $potentialDate))
             {
                 list($Year, $month, $day) = explode('-', $potentialDate);
-                if(checkdate($Year, $month, $day))
+                if(checkdate($month, $day, $Year))
                 {
-                    $currentDate = date("Y-M-D");
-                    $date1YearFuture = date('Y-M-D', strtotime('+1 year'));
+                    $currentDate = date("Y-m-d");
+                    $date1YearFuture = date("Y-m-d", strtotime('+1 year'));
                     if($potentialDate < $currentDate) //Date is already passed! Append an Error!
                     {
                         $this->appendErrors('date', "This date has already passed! Please enter a valid date!");

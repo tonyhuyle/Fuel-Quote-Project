@@ -5,6 +5,61 @@ use PhpFiles\FuelQuoteModule;
 use PhpFiles\FuelQuoteValidation as Validation;
 class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
 {
+    public function test_if_valid_is_valid(){
+        $example_post_data = array("gallons"=>"6",
+                                   "address"=>"124 Sunny Hills Lane",
+                                   "date"=>"2024-03-20");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertEmpty($errors, $message);
+    }
+    public function test_if_invalid_is_valid(){
+        //Missing fields case
+        $example_post_data = array("gallons"=>"6");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertNotEmpty($errors, $message);
+
+        // gallons invalid case
+
+        $example_post_data = array("gallons"=>"WRONG",
+                                    "address"=>"124 Sunny Hills Lane",
+                                    "date"=>"2024-03-20");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertNotEmpty($errors, $message);
+
+        // date invalid case
+
+        $example_post_data = array("gallons"=>"5",
+                                    "address"=>"124 Sunny Hills Lane",
+                                    "date"=>"NA");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertNotEmpty($errors, $message);
+
+
+    }
     public function test_if_valid_validate_gallons(){
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
@@ -49,7 +104,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
     {
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
-                                   "date"=>"2024-03-20");
+                                   "date"=>date("Y-m-d", strtotime("+1 day")));
         $test_Validation = new Validation($example_post_data);
         $test_Validation->validateDate();
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['date'] ?? "General Date Error Message");

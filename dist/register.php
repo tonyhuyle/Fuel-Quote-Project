@@ -3,6 +3,20 @@ require(__DIR__ .'/../PhpFiles/registerModule.php');
 require(__DIR__ .'/../PhpFiles/registerValidation.php');
 use PhpFiles\userRegister; 
 use PhpFiles\registerValidation;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $validate = new registerValidation($_POST);
+  $errors = $validate->errors();
+  if(!empty($errors))
+  {
+    echo "Errors found";
+    exit();
+  }
+}
+
+if(!isset($_GET['error'])) { 
+    echo $_GET ['error']; 
+}
 ?>
 
 <!DOCTYPE html>

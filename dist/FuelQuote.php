@@ -45,16 +45,16 @@
             <div class="m-2">
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
                     <h2 class="font-semibold">Gallons of Oil to request</h2>
-                    <input class = "h-10 box-border border-2" type="number" required name = "gallons" min="0" value="0" step="0.01" style="width:750px;">
+                    <input class = "h-10 box-border border-2" type="number" required name = "gallons" min="0" value="0" step="0.01" style="width:750px;"><br>
                     <?php
                     if($_SERVER["REQUEST_METHOD"] == "POST" and !empty($errors) and array_key_exists("gallons", $errors))
                     {
                         $message = $errors["gallons"];
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
-                    <h2 class = "mt-10 font-semibold">Delivery Address</h2>
 <!-- PUT CHECKBOX HERE FOR ADDRESS! -->
-                    <input class = "h-10 box-border border-2" placeholder="123HillsLane" name = address style="width:750px">
+                    <label class="font-semibold" for="address1">Street Address</label>
+				    <input type="text" id="address1" class="w-full p-2 border border-gray-300 rounded-md">
                     <h2 class = "mt-10 font-semibold">Delivery Date</h2>
                     <input class = "h-10 box-border border-2" type="date" name = "date">
                     <?php

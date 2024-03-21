@@ -66,10 +66,6 @@ class loginValidation
             $this->appendErrors('password', "Invalid username or password."); // Inform the user that either the username or password is invalid
             return;
         }
-        
-        if (!password_verify($enteredPassword, $storedHashedPassword)) {
-            $this->appendErrors('password', "Invalid password.");
-        }
     }
     public function appendErrors($field, $message) {
         $this->errors[$field] = $message;

@@ -52,8 +52,3 @@ if(!isset($_GET['error'])) {
       </div>
 </body>
 </html>
-
-<?php
-  $username = $_POST["username"];
-  $password = $_POST["password"];
-?>

@@ -39,7 +39,7 @@ class loginValidationTest extends \PHPUnit\Framework\TestCase {
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"Password1!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
@@ -48,45 +48,45 @@ class loginValidationTest extends \PHPUnit\Framework\TestCase {
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"Pass1!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
-        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
 
     public function test_if_missing_validate_password(){
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
-        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
 
     public function test_if_missing_uppercase_validate_password(){
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"password1!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
-        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
 
     public function test_if_missing_digit_validate_password(){
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"Password!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
-        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
 
     public function test_if_missing_special_validate_password(){
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"Password1");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateUsername();
+        $test_Validation->validatePassword();
 
-        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
 }
 

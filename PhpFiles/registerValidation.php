@@ -4,7 +4,7 @@ class registerValidation
 {
     private $register;
     private $errors = array();
-    private $fields = ['username','password'];
+    private $fields = ['username','password', 'confirmPass'];
 
     public function errors()
     {
@@ -52,7 +52,7 @@ class registerValidation
     
         public function validatePassword() // Add $password parameter
         {
-                $regex = "/^[a-zA-Z0-9\s]+$/";
+                $regex = "/^[a-zA-Z0-9\s!@#$%^&*_+\-=\[\];':|,.<>\/?]+$/";
             $value = trim($this->register['password'] ?? "");
 
             if (empty($value)) {

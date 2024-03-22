@@ -2,6 +2,21 @@
 use PhpFiles\registerValidation as Validation;
 class registerValidationTest extends \PHPUnit\Framework\TestCase {
 
+    public function test_if_invalid_is_valid(){
+        //Missing fields case
+        $example_post_data = array("username"=>"6",
+                                   "password"=>"6",
+                                   "confirmPass" => "6");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertNotEmpty($errors, $message);
+    }
+
     public function test_if_valid_validate_username(){
         $example_post_data = array("username"=>"John Doe",
                                    "password"=>"Password1!");

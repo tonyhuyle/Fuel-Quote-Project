@@ -88,6 +88,35 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
+
+    public function test_if_invalid_character_validate_password(){
+        $example_post_data = array("username"=>"John Doe",
+                                   "password"=>"Password1{");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->validatePassword();
+
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+    }
+
+    public function test_if_confirm_validate_password(){
+        $example_post_data = array("username"=>"John Doe",
+                                   "password"=>"Password1!",
+                                   "confirmPass" => "Password1!");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->validatePassword();
+
+        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+    }
+
+    public function test_if_not_confirm_validate_password(){
+        $example_post_data = array("username"=>"John Doe",
+                                   "password"=>"Password1!",
+                                   "confirmPass" => "Password1");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->validatePassword();
+
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
+    }
 }
 
 ?>

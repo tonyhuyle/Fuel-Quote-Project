@@ -54,18 +54,20 @@ class loginValidation
 
     public function validatePassword()
     {
+        $value = trim($this->login['password'] ?? "");
+
         if (empty($value)) {
             $this->appendErrors('password', "Password cannot be empty");
         } 
 
         // Retrieve the password from $this->login and compare it with the stored hash
-        $enteredPassword = $this->login['password'] ?? "";
+      /*  $enteredPassword = $this->login['password'] ?? "";
         $storedHashedPassword = ""; // Fetch the hashed password from your database based on the provided username/email
 
         if (!$storedHashedPassword) {
             $this->appendErrors('password', "Invalid username or password."); // Inform the user that either the username or password is invalid
             return;
-        }
+        } */
     }
     public function appendErrors($field, $message) {
         $this->errors[$field] = $message;

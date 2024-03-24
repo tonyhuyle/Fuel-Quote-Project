@@ -52,7 +52,7 @@ class registerValidation
     
         public function validatePassword() // Add $password parameter
         {
-                $regex = "/^[a-zA-Z0-9\s!@#$%^&*_+\-=\[\];':|,.<>\/?]+$/";
+            $regex = "/^[a-zA-Z0-9\s!@#$%^&*_+\-=\[\];':|,.<>\/?]+$/";
             $value = trim($this->register['password'] ?? "");
 
             if (empty($value)) {
@@ -81,10 +81,10 @@ class registerValidation
             }
         }
     
-        public function validateConf_Pass($password, $confirmPassword) // Add parameters for both passwords
+        public function validateConf_Pass($password, $confirmPass) // Add parameters for both passwords
         {
             // Confirm password validation
-            if($password !== $confirmPassword) // Check if passwords match
+            if($password !== $confirmPass) // Check if passwords match
             {
                 $this->appendErrors('confirmPass', "Passwords do not match");
             }

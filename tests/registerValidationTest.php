@@ -118,7 +118,7 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
                                    "password"=>"Password1!",
                                    "confirmPass" => "Password1!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateConf_Pass(["password"], ["confirmPassword"]);
+        $test_Validation->validateConf_Pass($example_post_data['password'], $example_post_data['confirmPass']);
 
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
@@ -128,7 +128,7 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
                                    "password"=>"Password1!",
                                    "confirmPass" => "Password1");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validateConf_Pass(["password"], ["confirmPassword"]);
+        $test_Validation->validateConf_Pass($example_post_data['password'], $example_post_data['confirmPass']);
 
         $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }

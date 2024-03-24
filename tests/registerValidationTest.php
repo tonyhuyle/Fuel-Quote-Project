@@ -4,9 +4,21 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
 
     public function test_if_invalid_is_valid(){
         //Missing fields case
-        $example_post_data = array("username"=>"6",
-                                   "password"=>"6",
-                                   "confirmPass" => "6");
+        $example_post_data = array("username"=>"Joe",
+                                   "password"=>"Password1!",
+                                   "confirmPass" => "Password1!");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertEmpty($errors, $message);
+
+        $example_post_data = array("username"=>"",
+                                   "password"=>"",
+                                   "confirmPass" => "");
         $test_Validation = new Validation($example_post_data);
         $errors = $test_Validation->is_valid();
         $message ="";

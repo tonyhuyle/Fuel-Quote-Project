@@ -28,7 +28,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         {
             $message .= $value . "\n";
         }
-        $this->assertNotEmpty($errors, $message);
+        $this->assertEmpty($errors, $message);
 
         // gallons invalid case
 
@@ -100,6 +100,15 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation3->validateDate();
         $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");
     }
+    public function test_if_valid_validate_date2()
+    {
+        $example_post_data = array("gallons"=>"5.5",
+                                   "address"=>"124 Sunny Hills Lane",
+                                   "date"=>date("Y-m-d"));
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->validateDate();
+        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['date'] ?? "General Date Error Message");
+    }
     public function test_if_valid_validate_date()
     {
         $example_post_data = array("gallons"=>"5.5",
@@ -114,6 +123,15 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
                                    "date"=>"1000-03-01");
+        $test_Validation3 = new Validation($example_post_data);
+        $test_Validation3->validateDate();
+        $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");
+    }
+    public function test_if_invalid_validate_date3()
+    {
+        $example_post_data = array("gallons"=>"5.5",
+                                   "address"=>"124 Sunny Hills Lane",
+                                   "date"=>"2055-03-01");
         $test_Validation3 = new Validation($example_post_data);
         $test_Validation3->validateDate();
         $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");

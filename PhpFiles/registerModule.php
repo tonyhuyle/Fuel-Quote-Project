@@ -4,7 +4,7 @@ class userRegister {
     public $servername = "localhost";
     public $user = "JohnDoe123";
     public $pass = "Password";
-    public $confirmPass = "Password";
+    public $confirmPassword = "Password";
     
     public function getUsername(){
         return $this->user;

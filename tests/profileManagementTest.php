@@ -6,7 +6,7 @@ class ProfileManagementTest extends \PHPUnit\Framework\TestCase
 {
     public function testProfileManagement()
     {
-        $user = new userProfile("JohnDoe123");
+        $user = new userProfile("JohnDoe123", "John Doe", "123 main street", "Unit 456", "New York City", "NY", "10001", "johndoe@example.com");
         $this->assertEquals("JohnDoe123", $user->getUsername());
         $this->assertEquals("John Doe", $user->getName());
         $this->assertEquals("123 main street", $user->getAddress1());

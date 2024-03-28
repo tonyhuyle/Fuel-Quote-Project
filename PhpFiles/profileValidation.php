@@ -5,7 +5,7 @@ class profileValidation
 {
     private $profile;
     private $errors = array();
-    private $fields = ['username','name','address1','address2','city','state','zip','email'];
+    private $fields = ['name','address1','address2','city','state','zip','email'];
 
     public function __construct($newprofile)
     {
@@ -14,18 +14,17 @@ class profileValidation
     }
     public function errors()
     {
-        return $this->errors;
+        if(empty($this->errors))
+        {
+            return "";
+        }
+        else
+        {
+            return $this->errors;
+        }
     }
     public function is_valid()
     {
-        foreach(self::$fields as $field)
-        {
-            if(!array_key_exists($field, $this->profile))
-            {
-                trigger_error("$field is not present in data");
-                return;
-            }
-        }
         $this->validateName();
         $this->validateAddress1();
         $this->validateAddress2();
@@ -74,6 +73,11 @@ class profileValidation
     {
         $regex = "/^[a-zA-Z0-9\s]+$/";
         $value = trim($this->profile['address2'] ?? "");
+        if(empty($value))
+        {
+            return;
+        }
+        else
         if(!(preg_match($regex, $value)))
         {
             $this->appendErrors('address2', "Invalid address format, please use alphanumeric characters");

@@ -3,6 +3,44 @@ use PhpFiles\profileValidation as Validation;
 
 class profileValidationTest extends \PHPUnit\Framework\TestCase
 {
+    public function test_if_valid_is_valid(){
+        $example_post_data = array("name"=>"John Doe",
+                                   "address1"=>"123 main street",
+                                   "address2"=>"Unit 456",
+                                   "city"=>"New York City",
+                                   "state"=>"NY",
+                                   "zip"=>"10001",
+                                   "email"=>"johndoe@gmail.com");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->is_valid();
+        $this->assertEmpty($test_Validation->errors() ?? "General Error Message");
+    }
+
+    public function test_if_invalid_is_valid(){
+        //Missing fields case
+        $example_post_data = array("name"=>"John Doe",
+                                   "address1"=>"123 main street",
+                                   "address2"=>"Unit 456",
+                                   "city"=>"New York City",
+                                   "state"=>"NY",
+                                   "zip"=>"10001");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->is_valid();
+        $this->assertNotEmpty($test_Validation->errors() ?? "General Error Message");
+
+        // name invalid case
+        $example_post_data = array("name"=>"John6Doe",
+                                   "address1"=>"123 main street",
+                                   "address2"=>"Unit 456",
+                                   "city"=>"New York City",
+                                   "state"=>"NY",
+                                   "zip"=>"10001",
+                                   "email"=>"johndoe@gmail.com");
+        $test_Validation2 = new Validation($example_post_data);
+        $test_Validation2->is_valid();
+        $this->assertNotEmpty($test_Validation2->errors() ?? "General Error Message");
+    }
+
     public function test_if_valid_validate_name(){
         $example_post_data = array("name"=>"John Doe",
                                    "address1"=>"123 main street",
@@ -15,7 +53,7 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation->validateName();
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['name'] ?? "General Error Message");
     }
-
+    
     public function test_if_invalid_validate_name(){
         $example_post_data = array("name"=>"John6Doe",
                                    "address1"=>"123 main street",
@@ -120,6 +158,7 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation->validateAddress2();
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['address2'] ?? "General Error Message");
     }
+
     public function test_if_invalid_validate_address2(){
         $example_post_data = array("name"=>"John Doe",
                                    "address1"=>"123 main street",
@@ -229,7 +268,7 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
                                    "address1"=>"123 main street",
                                    "address2"=>"Unit 456",
                                    "city"=>"New York City",
-                                   "state"=>"New York",
+                                   "state"=>"NewYork",
                                    "zip"=>"10001",
                                    "email"=>"johndoe@example.com");
         $test_Validation = new Validation($example_post_data);

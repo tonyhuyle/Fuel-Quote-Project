@@ -1,81 +1,80 @@
+const validationOptions = [
+	{
+		attribute: 'minlength',
+		isValid: input => input.value && input.value.length >= parseInt(input.minLength, 10),
+		errorMessage: (input, label) => `${label.textContent} must be at least ${input.minLength} characters`
+	}
+	,
+	{
+		attribute: 'custommaxlength',
+		isValid: input => input.value && input.value.length <= parseInt(input.getAttribute('custommaxlength'), 10),
+		errorMessage: (input, label) => `${label.textContent} must be at most ${input.getAttribute('custommaxlength')} characters`
+	},
+	{
+		attribute: 'required',
+		isValid: input => input.value.trim() !== '',
+		errorMessage: (input, label) => `${label.textContent} is required`
+	}
+];
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('profileEditForm');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+		var inputs = form.querySelectorAll('input');
+		var valid = true;
+
+		inputs.forEach(function(input) {
+			var label = input.parentElement.querySelector('label');
+			var error = input.parentElement.querySelector('span.error');
+			var validation = validationOptions.find(option => input.hasAttribute(option.attribute));
+
+			if (validation && !validation.isValid(input)) {
+				error.textContent = validation.errorMessage(input, label);
+				valid = false;
+			} else {
+				error.textContent = '';
+			}
+
+			if(label == 'name') {
+				var hasNumbers = containsNumbers(input.value);
+				if(hasNumbers) {
+					error.textContent = 'Name cannot contain numbers';
+					valid = false;
+				}
+			}
+
+			if(label == 'email') {
+				var validEmail = validateEmail(input.value());
+				if(!validEmail) {
+					error.textContent = 'Invalid email';
+					valid = false;
+				}
+			}
+			
+		});
+
+		if (valid) {
+			form.submit();
+		}
+		event.preventDefault();
+    });
+});
+
 function toggleEdit() {
     var editProfileDiv = document.getElementById('editProfile');
 	var profileDiv = document.getElementById('showProfile');
     editProfileDiv.classList.toggle('hidden');
 	profileDiv.classList.toggle('hidden');
-}
-
-function validateProfile() {
-	document.querySelector('form').addEventListener('submit', function(event) {
-		event.preventDefault();
-
-		var name = document.getElementById('name').value;
-		var email = document.getElementById('email').value;
-		var address1 = document.getElementById('address1').value;
-		var address2 = document.getElementById('address2').value;
-		var city = document.getElementById('city').value;
-		var state = document.getElementById('state').value;
-		var zip = document.getElementById('zip').value;
-
-		var editError = document.getElementById('editError');
-		var nameError = document.getElementById('nameError');
-		var emailError = document.getElementById('emailError');
-		var address1Error = document.getElementById('address1Error');
-		var address2Error = document.getElementById('address2Error');
-		var cityError = document.getElementById('cityError');
-		var stateError = document.getElementById('stateError');
-		var zipError = document.getElementById('zipError');
-
-		editError.innerHTML = '';
-		nameError.innerHTML = '';
-		emailError.innerHTML = '';
-		address1Error.innerHTML = '';
-		address2Error.innerHTML = '';
-		cityError.innerHTML = '';
-		stateError.innerHTML = '';
-		zipError.innerHTML = '';
-
-		var isValid = true;
-		if(name == '' || email == '' || address1 == '' || city == '' || state == '' || zip == '') {
-			editError.innerHTML = 'Please fill out all required fields.';
-			isValid = false;
-		}
-		if(name.length > 50 || !isNaN(name) || containsNumbers(name)) {
-			nameError.innerHTML = 'Please enter a valid name.';
-			isValid = false;
-		}
-		if(address1.length > 100) {
-			address1Error.innerHTML = 'Please enter a valid address.';
-			isValid = false;
-		}
-		if(address2.length > 100) {
-			address2Error.innerHTML = 'Please enter a valid address.';
-			isValid = false;
-		}
-		if(city.length > 100 || !isNaN(city) || containsNumbers(city)) {
-			cityError.innerHTML = 'Please enter a valid city.';
-			isValid = false;
-		}
-		if(zip.length > 9 || isNaN(zip)) {
-			zipError.innerHTML = 'Please enter a valid zip code.';
-			isValid = false;
-		}
-		if(!validateEmail(email)) {
-			emailError.innerHTML = 'Please enter a valid email address.';
-			isValid = false;
-		}
-		if(isValid) {
-			this.submit();
-		}
-	});
-}
+};
 
 function validateEmail(email) {
 	var re = /\S+@\S+\.\S+/;
 	return re.test(email);
 }
 
-function containsNumbers(str) {
-	var regex = /\d/g;
-	return regex.test(str);
+function containsNumbers(input) {
+	return /\d/.test(input);
 }

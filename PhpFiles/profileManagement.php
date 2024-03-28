@@ -1,5 +1,6 @@
 <?php
 namespace PhpFiles;
+require(__DIR__ . '/../dist/connection.php');
 class userProfile {
     public $username;
     public $name;
@@ -10,7 +11,7 @@ class userProfile {
     public $zip;
     public $email;
 
-    public function __construct($username) {
+    public function __construct($username, $name='', $address1='', $address2='', $city='', $state='', $zip='', $email='') {
         // Get the user's profile information from the database and store it in the object
         /*global $pdo;
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
@@ -27,15 +28,15 @@ class userProfile {
         $this->email = htmlspecialchars($user['email']);
         */
 
-        // hardcode the user's profile information for now
+        // hardcode the user's profile information for now -- this will be removed when we have a database
         $this->username = $username;
-        $this->name = "John Doe";
-        $this->address1 = "123 main street";
-        $this->address2 = "Unit 456";
-        $this->city = "New York City";
-        $this->state = "NY";
-        $this->zip = "10001";
-        $this->email = "johndoe@example.com";
+        $this->name = $name;
+        $this->address1 = $address1;
+        $this->address2 = $address2;
+        $this->city = $city;
+        $this->state = $state;
+        $this->zip = $zip;
+        $this->email = $email;
     }
 
     public function getName(){
@@ -76,7 +77,15 @@ class userProfile {
         $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, address1 = ?, address2 = ?, city = ?, state = ?, zip = ? WHERE username = ?");
         $stmt->execute([$name, $email, $address1, $address2, $city, $state, $zip, $this->username]);
         */
-
+        // Update the user's profile information in the session -- this is temporary will be removed when we have a database
+        $_SESSION['Users'][$this->getUsername()]['name'] = $name;
+        $_SESSION['Users'][$this->getUsername()]['email'] = $email;
+        $_SESSION['Users'][$this->getUsername()]['address1'] = $address1;
+        $_SESSION['Users'][$this->getUsername()]['address2'] = $address2;
+        $_SESSION['Users'][$this->getUsername()]['city'] = $city;
+        $_SESSION['Users'][$this->getUsername()]['state'] = $state;
+        $_SESSION['Users'][$this->getUsername()]['zip'] = $zip;
+        
         // Update the user's profile information in the object
         $this->name = $name;
         $this->email = $email;

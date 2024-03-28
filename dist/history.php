@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    echo '<pre>';
+    print_r($_SESSION["History"]);
+    echo '</pre>';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +21,7 @@
         <div class="navbar">
 			<ul>
 			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.html" class="button-left">My Profile</a></li>
-			<li class="font-semibold text-gray-800 mb-4"><a href="FuelQuote.html">New Quote</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="FuelQuote.php">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active">View Quotes</a></li>
 			</ul>
 		</div>

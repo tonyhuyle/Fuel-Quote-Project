@@ -52,6 +52,11 @@
         }
         public function validateAddress()
         {
+            $value = trim($this->FuelQuote['address'] ?? "");
+            if(empty($value))
+            {
+                $this->appendErrors('address', "There needs to be a street address given");
+            }
 
         }
         public function validateDate()

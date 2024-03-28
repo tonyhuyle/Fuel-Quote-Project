@@ -6,13 +6,17 @@
         private $gallons = 0;
         private $address = "123HillLane";
         private $date = "03/28/2024";
-        private $suggestPrice = -1;
-        private $totalPrice =-1;
+        private $suggestPrice = 3.02;
+        private $totalPrice = 0;
 
         public function __construct($post_data)
         {
             $this->data = $post_data;
-            
+            $this->setGallons($this->data["gallons"]);
+            $this->setAddress($this->data["address"]);
+            $this->setDate($this->data["date"]);
+            $this->setSuggestPrice(3.02);
+            $this->setTotalPrice($this->getGallons() * $this->getSuggestedPrice());
         }
         public function getData()
         {
@@ -25,7 +29,7 @@
             $this->address = $addressParam;
         }
         public function setDate($dateParam){
-            $this->address = $dateParam;
+            $this->date = $dateParam;
         }
         public function setSuggestPrice($price){
             $this->suggestPrice = $price;

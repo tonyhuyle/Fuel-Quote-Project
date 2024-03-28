@@ -28,7 +28,7 @@ class registerValidation
             }
             $this->validateUsername(); // Pass username to validation method
             $this->validatePassword(); // Pass password to validation method
-            $this->validateConf_Pass($this->register['password'], $this->register['confirmPassword']); // Pass both passwords to validation method
+            $this->validateConf_Pass($this->register['password'], $this->register['confirmPass']); // Pass both passwords to validation method
             return $this->errors();
         }
         
@@ -52,7 +52,7 @@ class registerValidation
     
         public function validatePassword() // Add $password parameter
         {
-                $regex = "/^[a-zA-Z0-9\s!@#$%^&*_+\-=\[\];':|,.<>\/?]+$/";
+            $regex = "/^[a-zA-Z0-9\s!@#$%^&*_+\-=\[\];':|,.<>\/?]+$/";
             $value = trim($this->register['password'] ?? "");
 
             if (empty($value)) {
@@ -81,12 +81,12 @@ class registerValidation
             }
         }
     
-        public function validateConf_Pass($password, $confirmPassword) // Add parameters for both passwords
+        public function validateConf_Pass($password, $confirmPass) // Add parameters for both passwords
         {
             // Confirm password validation
-            if($password !== $confirmPassword) // Check if passwords match
+            if($password !== $confirmPass) // Check if passwords match
             {
-                $this->appendErrors('confirmPassword', "Passwords do not match");
+                $this->appendErrors('confirmPass', "Passwords do not match");
             }
         }
     

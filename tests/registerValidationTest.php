@@ -4,9 +4,21 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
 
     public function test_if_invalid_is_valid(){
         //Missing fields case
-        $example_post_data = array("username"=>"6",
-                                   "password"=>"6",
-                                   "confirmPass" => "6");
+        $example_post_data = array("username"=>"Joe",
+                                   "password"=>"Password1!",
+                                   "confirmPass" => "Password1!");
+        $test_Validation = new Validation($example_post_data);
+        $errors = $test_Validation->is_valid();
+        $message ="";
+        foreach($errors as $key=>$value)
+        {
+            $message .= $value . "\n";
+        }
+        $this->assertEmpty($errors, $message);
+
+        $example_post_data = array("username"=>"",
+                                   "password"=>"",
+                                   "confirmPass" => "");
         $test_Validation = new Validation($example_post_data);
         $errors = $test_Validation->is_valid();
         $message ="";
@@ -118,7 +130,7 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
                                    "password"=>"Password1!",
                                    "confirmPass" => "Password1!");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validatePassword();
+        $test_Validation->validateConf_Pass($example_post_data['password'], $example_post_data['confirmPass']);
 
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }
@@ -128,7 +140,7 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
                                    "password"=>"Password1!",
                                    "confirmPass" => "Password1");
         $test_Validation = new Validation($example_post_data);
-        $test_Validation->validatePassword();
+        $test_Validation->validateConf_Pass($example_post_data['password'], $example_post_data['confirmPass']);
 
         $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['password'] ?? "General Error Message");
     }

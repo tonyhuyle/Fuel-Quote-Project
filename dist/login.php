@@ -35,7 +35,7 @@ if(!isset($_GET['error'])) {
 
     <div class="max-w-md w-full p-6 bg-white rounded-md shadow-md">
         <h2 class="text-2xl font-semibold text-gray-800 mb-4">Client Portal</h2>
-      <form action="loginModule.php" method = "post">
+      <form method = "post">
           <label for="username" class="block text-sm text-gray-500">Username:</label>
           <input type="text" id="username" name="username" placeholder="Enter your username" class="mt-1 p-2 w-full border rounded-md">
       

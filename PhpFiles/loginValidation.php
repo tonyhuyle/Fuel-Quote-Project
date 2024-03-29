@@ -34,7 +34,7 @@ class loginValidation
 
         public function validateUsername()
     {
-        $regex = "/^[a-zA-Z\s]+$/";
+        $regex = "/^[a-zA-Z0-9\s_]+$/";
         $value = trim($this->login['username'] ?? "");
 
         if (empty($value)) {

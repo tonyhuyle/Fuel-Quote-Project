@@ -34,7 +34,7 @@ class registerValidation
         
         public function validateUsername() // Add $username parameter
         {
-                $regex = "/^[a-zA-Z\s]+$/";
+            $regex = "/^[a-zA-Z0-9\s_]+$/";
             $value = trim($this->register['username'] ?? "");
 
             if (empty($value)) {

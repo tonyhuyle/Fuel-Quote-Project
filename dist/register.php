@@ -21,7 +21,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         $_SESSION["CurrentUser"] = $username;
         $currentUser = $_SESSION["CurrentUser"];
-        $_SESSION["Users"][$currentUser] = array("username" => $username, "password" => $password);
+        $_SESSION["Users"][$currentUser] = array("username" => $username, "password" => $password, "name" =>  "", "address1" =>  "", "address2" =>  "", "city" =>  "", "state" =>  "", "zip" => "", "email" => "");
         // Set the current user variable
         //$_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
 

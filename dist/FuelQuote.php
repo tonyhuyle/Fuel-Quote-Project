@@ -23,12 +23,12 @@
             $currentUser = $_SESSION["CurrentUser"];
             if(!array_key_exists($currentUser, $_SESSION["History"])) //There is no history for this user
             {
-                $_SESSION["History"][$currentUser] = array(array("id" =>$id, "date"=> $date, "address" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
+                $_SESSION["History"][$currentUser] = array(array("id" =>$id, "date"=> $date, "address1" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
             }
             else //There is history
             {
                 //$currentUserRecords = $_SESSION["History"][$currentUser]; THIS IS FRUSTRATINGLY WRONG
-                $_SESSION["History"][$currentUser][] = (array("id" =>$id, "date"=> $date, "address" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
+                $_SESSION["History"][$currentUser][] = (array("id" =>$id, "date"=> $date, "address1" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
                 echo '<pre>';
                 print_r($_SESSION["History"]);
                 echo '</pre>';

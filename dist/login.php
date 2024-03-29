@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             if($_SESSION["Users"][$username]["password"] == $password) {
         $_SESSION["CurrentUser"] = $username;
         $formLoginSuccessful = true;
-        header("Location: /dist/profile/profile.php");
+        header("Location: ../dist/profile/profile.php");
         exit; // Make sure to exit after redirection
             }
         }
@@ -84,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
                         echo "<Br><p><strong>Logged successfully! All input fields sucessfully validated.</strong></p>";
-                        header("location: /dist/profile/profile.php");
+                        header("location: ../dist/profile/profile.php");
 
                     
                     }

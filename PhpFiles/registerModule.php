@@ -2,24 +2,24 @@
 namespace PhpFiles;
 class userRegister {
     public $servername = "localhost";
-    public $user = "JohnDoe123";
-    public $pass = "Password1!";
+    public $username = "JohnDoe123";
+    public $password = "Password1!";
     public $confirmPassword = "Password1!";
     
     public function getUsername(){
-        return $this->user;
+        return $this->username;
     }
     
     public function setUsername($username){
-        $this->user = $username;
+        $this->username = $username;
     }
 
     public function getPassword(){
-        return $this->pass;
+        return $this->password;
     }
 
     public function setPassword($password){
-        $this->pass = $password;
+        $this->password = $password;
     }
 }
 

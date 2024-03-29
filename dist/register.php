@@ -5,20 +5,31 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userRegister; 
 use PhpFiles\registerValidation;
 $errors = array();
+include('connection.php');
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-        $validate = new registerValidation($_POST);
-        $errors = $validate->is_valid();
-        if(empty($validate->errors()))
-        {
-            $module = new userRegister($_POST);
-        }
-        else
-        {
-            $errors = $validate->errors();
-        }
+{
+    $validate = new registerValidation($_POST);
+    $errors = $validate->is_valid();
+    if(empty($validate->errors())) {
+         $module = new userRegister($_POST);
+         $username = $_POST["username"];
+         $password = $_POST["password"];
+        
+         $module->setUsername($username);
+         $module->setUsername($password);
+        // Set the current user variable
+        $_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
+        
+        // Redirect to the profile page after successful registration
+        header("Location: /dist/profile/profile.php");
+        exit; // Make sure to exit after redirection
     }
+    else 
+    {
+        $errors = $validate->errors();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -75,12 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
                         echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
-                            $currentUser = $_SESSION["CurrentUser"];
-                            $user = new userRegister($currentUser, 
-                                                    $_SESSION['Users'][$currentUser]['username'], 
-                                                    $_SESSION['Users'][$currentUser]['password'],
-                                                );
-                        header("location:profile.php");
+                        header("location: /dist/profile/profile.php");
                     }?>
         </form>
         </p>

@@ -62,7 +62,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
 
-            <label for="password" class="block mt-4 text-sm text-gray-500">Password:</label>
+            <label for="password" class="block mt-4 text-sm text-gray-500">Password (At least 1 number and 1 special character):</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" class="mt-1 p-2 w-full border rounded-md">
 
             <?php

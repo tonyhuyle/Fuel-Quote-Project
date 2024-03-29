@@ -26,9 +26,9 @@ const validationOptions = [
 	}
 	,
 	{
-		attribute: 'name',
+		attribute: 'id',
         isValid: input => {
-            switch (input.getAttribute('name')) {
+            switch (input.getAttribute('id')) {
                 case 'email':
                     // simple email validation
                     return /\S+@\S+\.\S+/.test(input.value);
@@ -37,13 +37,13 @@ const validationOptions = [
                     return !/\d/.test(input.value);
 				case 'zip':
 					// check if it's a number
-					return !/\d/.test(input.value);
+					return /\d/.test(input.value);
                 default:
                     // if it's another type, just return true
                     return true;
             }
         },
-		errorMessage: (input, label) => `Please enter a valid ${input.getAttribute('type')}`
+		errorMessage: (input, label) => `Please enter a valid ${input.getAttribute('name')}`
 	},
 	{
 		attribute: 'required',

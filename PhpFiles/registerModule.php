@@ -3,8 +3,8 @@ namespace PhpFiles;
 class userRegister {
     public $servername = "localhost";
     public $user = "JohnDoe123";
-    public $pass = "Password";
-    public $confirmPassword = "Password";
+    public $pass = "Password1!";
+    public $confirmPassword = "Password1!";
     
     public function getUsername(){
         return $this->user;

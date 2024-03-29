@@ -9,7 +9,8 @@ const validationOptions = [
 		attribute: 'custommaxlength',
 		isValid: input => input.value && input.value.length <= parseInt(input.getAttribute('custommaxlength'), 10),
 		errorMessage: (input, label) => `${label.textContent} must be at most ${input.getAttribute('custommaxlength')} characters`
-	},
+	}
+	,
 	{
 		attribute: 'required',
 		isValid: input => input.value.trim() !== '',
@@ -29,14 +30,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		inputs.forEach(function(input) {
 			var label = input.parentElement.querySelector('label');
 			var error = input.parentElement.querySelector('span.error');
-			var validation = validationOptions.find(option => input.hasAttribute(option.attribute));
+			var validation = validationOptions.filter(option => input.hasAttribute(option.attribute));
+			var errorArray = [];
 
-			if (validation && !validation.isValid(input)) {
-				error.textContent = validation.errorMessage(input, label);
-				valid = false;
-			} else {
-				error.textContent = '';
-			}
+			validation.forEach(validation => {
+				if (!validation.isValid(input)) {
+					errorArray.push(validation.errorMessage(input, label));
+					valid = false;
+				} else {
+					error.textContent = '';
+				}
+			});
 
 			if(label == 'name') {
 				var hasNumbers = containsNumbers(input.value);
@@ -53,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
 					valid = false;
 				}
 			}
+
+			error.textContent = errorArray.pop();
 			
 		});
 

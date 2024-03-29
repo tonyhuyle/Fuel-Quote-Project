@@ -73,7 +73,7 @@ include 'connection.php';
                 }
                 else // There is NO history to show for this user. Do Nothing / show blanks
                 {
-                    echo "$CurrentUser";
+                    // echo "$CurrentUser";
                 }
                 //END HISTORY INSTRUCTIONS
 

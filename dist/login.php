@@ -2,6 +2,7 @@
 <?php 
 require(__DIR__ .'/../PhpFiles/loginModule.php');
 require(__DIR__ .'/../PhpFiles/loginValidation.php');
+require(__DIR__ . '/connection.php');
 use PhpFiles\userLogin; 
 use PhpFiles\loginValidation;
 $errors = array();
@@ -20,8 +21,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         }
     }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,6 +65,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
                         echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
+                        $currentUser = $_SESSION["CurrentUser"];
+                            $user = new userLogin($currentUser, 
+                                                    $_SESSION['Users'][$currentUser]['username'], 
+                                                    $_SESSION['Users'][$currentUser]['password'],
+                                                );
+                        header("location:profile.php");
                     }?>
 
       </form>

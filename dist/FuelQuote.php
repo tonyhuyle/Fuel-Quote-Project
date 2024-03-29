@@ -5,6 +5,7 @@
     use PhpFiles\FuelQuoteModule;
     use PhpFiles\FuelQuoteValidation;
     $errors = array();
+    
     if(!array_key_exists("Users", $_SESSION))
     {
         $_SESSION["Users"] = array("dogFriend1", "goodPal35");

@@ -1,6 +1,7 @@
 <?php 
 require(__DIR__ .'/../PhpFiles/registerModule.php');
 require(__DIR__ .'/../PhpFiles/registerValidation.php');
+require(__DIR__ . '/connection.php');
 use PhpFiles\userRegister; 
 use PhpFiles\registerValidation;
 $errors = array();
@@ -57,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     }?>
 
             <label for="password" class="block mt-4 text-sm text-gray-500">Confirm Password:</label>
-            <input type="password" id="password" name="password" placeholder="Re-enter your password" class="mt-1 p-2 w-full border rounded-md">
+            <input type="password" id="confirmPass" name="confirmPass" placeholder="Re-enter your password" class="mt-1 p-2 w-full border rounded-md">
              
             <?php
                     if($_SERVER["REQUEST_METHOD"] == "POST" and !empty($errors) and array_key_exists("confirmPass", $errors) )
@@ -74,6 +75,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
                         echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
+                            $currentUser = $_SESSION["CurrentUser"];
+                            $user = new userRegister($currentUser, 
+                                                    $_SESSION['Users'][$currentUser]['username'], 
+                                                    $_SESSION['Users'][$currentUser]['password'],
+                                                );
+                        header("location:profile.php");
                     }?>
         </form>
         </p>

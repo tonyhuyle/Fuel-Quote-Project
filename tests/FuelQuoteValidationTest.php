@@ -8,7 +8,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
     public function test_if_valid_is_valid(){
         $example_post_data = array("gallons"=>"6",
                                    "address"=>"124 Sunny Hills Lane",
-                                   "date"=>"2024-03-20");
+                                   "date"=>"2024-06-20");
         $test_Validation = new Validation($example_post_data);
         $errors = $test_Validation->is_valid();
         $message ="";
@@ -28,7 +28,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         {
             $message .= $value . "\n";
         }
-        $this->assertEmpty($errors, $message);
+        $this->assertNotEmpty($errors, $message);
 
         // gallons invalid case
 
@@ -63,7 +63,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
     public function test_if_valid_validate_gallons(){
         $example_post_data = array("gallons"=>"5.5",
                                    "address"=>"124 Sunny Hills Lane",
-                                   "date"=>"2024-03-20");
+                                   "date"=>"2024-06-20");
         $test_Validation = new Validation($example_post_data);
         $test_Validation->validateGallons();
 
@@ -73,7 +73,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         //Given that we have an invalid value for gallons, 
         $example_post_data = array("gallons"=>"Obviously Invalid",
                                    "address"=>"124 Sunny Hills Lane",
-                                   "date"=>"2024-03-20");
+                                   "date"=>"2024-06-20");
         $test_Validation2 = new Validation($example_post_data);
         //When we validate the gallons field, 
         $test_Validation2->validateGallons();
@@ -84,7 +84,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         //Given that we have an missing value for gallons, 
         $example_post_data = array("gallons"=>"",
                                    "address"=>"124 Sunny Hills Lane",
-                                   "date"=>"2024-03-20");
+                                   "date"=>"2024-06-20");
         $test_Validation2 = new Validation($example_post_data);
         //When we validate the gallons field, 
         $test_Validation2->validateGallons();

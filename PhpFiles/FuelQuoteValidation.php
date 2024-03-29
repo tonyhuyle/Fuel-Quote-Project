@@ -52,10 +52,19 @@
         }
         public function validateAddress()
         {
+            $regex = "/^[a-zA-Z0-9\s]+$/";
             $value = trim($this->FuelQuote['address'] ?? "");
             if(empty($value))
             {
-                $this->appendErrors('address', "There needs to be a street address given");
+                $this->appendErrors('address', "Address cannot be empty");
+            }
+            else if(!(preg_match($regex, $value)))
+            {
+                $this->appendErrors('address', "Invalid address format, please use alphanumeric characters");
+            }
+            else if(strlen($value) < 5 || strlen($value) > 100)
+            {
+                $this->appendErrors('address', "Address must be between 5 and 100 characters");
             }
 
         }

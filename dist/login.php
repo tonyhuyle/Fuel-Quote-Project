@@ -20,11 +20,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
          $module->getUsername($username);
          $module->getUsername($password);
         // Set the current user variable
-        $_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
+     // Assuming $username is the user's identifier
         
         // Redirect to the profile page after successful registration
+        if(array_key_exists($username, $_SESSION["Users"])) {
+            if($_SESSION["Users"][$username]["password"] == $password) {
+        $_SESSION["CurrentUser"] = $username;
         header("Location: /dist/profile/profile.php");
         exit; // Make sure to exit after redirection
+            }
+        }
+        
     }
     else 
     {

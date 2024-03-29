@@ -15,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
          $module = new userRegister($_POST);
          $username = $_POST["username"];
          $password = $_POST["password"];
-        
+
          $module->setUsername($username);
          $module->setUsername($password);
 
@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION["Users"][$currentUser] = array("username" => $username, "password" => $password);
         // Set the current user variable
         //$_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
-        
+
         // Redirect to the profile page after successful registration
         header("Location: /dist/profile/profile.php");
         exit; // Make sure to exit after redirection

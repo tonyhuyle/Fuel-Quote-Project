@@ -8,29 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Fuel Quote History</title>
 </head>
-
 <?php
-session_start();
-
-
-    if(!array_key_exists("Users", $_SESSION))
-    {
-        $_SESSION["Users"] = array("dogFriend1", "goodPal35");
-        $_SESSION["passwords"] = array("Baby_Ring1", "SecurePass2");
-        $_SESSION["History"] = array(
-            "dogFriend1" => array(
-                array("id" =>"99902345", "date"=> "2024-04-25", "address" => "14567 Happy Way Dr", "gallons"=> "5", "suggestPrice"=> "3.00", "totalPrice"=>"15.00")
-            )
-        );
-       
-        $_SESSION["History"]["goodPal35"] = array(array("id" =>"13000345", "date"=> "2024-05-11", "address" => "55567 Unhappy Blvd", "gallons"=> "5", "suggestPrice"=> "3.00", "totalPrice"=>"15.00"));
-        $_SESSION["History"]["dogFriend1"][] = array("id" =>"99902345", "date"=> "2024-05-25", "address" => "14567 Happy Way Dr", "gallons"=> "7", "suggestPrice"=> "3.00", "totalPrice"=>"21.00");
-    }
-    if(!array_key_exists("CurrentUser", $_SESSION))
-    {
-         $_SESSION["CurrentUser"] = "dogFriend1"; //default to being under dogFriend1's profile
-    }
-
+include 'connection.php';
 ?>
 <body class="bg-cover bg-center flex items-center justify-center h-screen" background=images/Refinery.jpg>     
 

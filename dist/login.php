@@ -6,20 +6,31 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userLogin; 
 use PhpFiles\loginValidation;
 $errors = array();
+include('connection.php');
 
 if($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-        $validate = new loginValidation($_POST);
-        $errors = $validate->is_valid();
-        if(empty($validate->errors()))
-        {
-            $module = new userLogin($_POST);
-        }
-        else
-        {
-            $errors = $validate->errors();
-        }
+{
+    $validate = new loginValidation($_POST);
+    $errors = $validate->is_valid();
+    if(empty($validate->errors())) {
+        $module = new userLogin($_POST);
+        $username = $module->getUsername();
+        $password = $module->getPassword();
+        
+        // Here verify the username and password against database 
+        
+        // Assuming authentication is successful, set session variables
+        $_SESSION["CurrentUser"] = $username; // Set the current user
+        
+        // Redirect to the profile page after successful login
+        header("Location: /dist/profile/profile.php");
+        exit; // Make sure to exit after redirection
     }
+    else
+    {
+        $errors = $validate->errors();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -65,12 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
                         echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
-                        $currentUser = $_SESSION["CurrentUser"];
-                            $user = new userLogin($currentUser, 
-                                                    $_SESSION['Users'][$currentUser]['username'], 
-                                                    $_SESSION['Users'][$currentUser]['password'],
-                                                );
-                        header("location:profile.php");
+                        header("location: /dist/profile/profile.php");
                     }?>
 
       </form>

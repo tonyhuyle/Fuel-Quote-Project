@@ -1,23 +1,56 @@
 const validationOptions = [
 	{
 		attribute: 'minlength',
-		isValid: input => input.value && input.value.length >= parseInt(input.minLength, 10),
-		errorMessage: (input, label) => `${label.textContent} must be at least ${input.minLength} characters`
+    	isValid: input => {
+			// If the input is optional and blank, pass the validation
+			if (input.getAttribute('required') == null && input.value.trim() === '') {
+				return true;
+			}
+			// Otherwise, check the length
+			return input.value.length >= parseInt(input.minLength, 10);
+    	},
+    	errorMessage: (input, label) => `${label.textContent} must be at least ${input.minLength} characters`
 	}
 	,
 	{
 		attribute: 'custommaxlength',
-		isValid: input => input.value && input.value.length <= parseInt(input.getAttribute('custommaxlength'), 10),
-		errorMessage: (input, label) => `${label.textContent} must be at most ${input.getAttribute('custommaxlength')} characters`
+    	isValid: input => {
+			// If the input is optional and blank, pass the validation
+			if (input.getAttribute('required') == null && input.value.trim() === '') {
+				return true;
+			}
+			// Otherwise, check the length
+			return input.value.length <= parseInt(input.getAttribute('custommaxlength'), 10);
+    	},
+    	errorMessage: (input, label) => `${label.textContent} must be at most ${input.getAttribute('custommaxlength')} characters`
 	}
 	,
+	{
+		attribute: 'name',
+        isValid: input => {
+            switch (input.getAttribute('name')) {
+                case 'email':
+                    // simple email validation
+                    return /\S+@\S+\.\S+/.test(input.value);
+                case 'name':
+                    // check if it's a number
+                    return !/\d/.test(input.value);
+				case 'zip':
+					// check if it's a number
+					return !/\d/.test(input.value);
+                default:
+                    // if it's another type, just return true
+                    return true;
+            }
+        },
+		errorMessage: (input, label) => `Please enter a valid ${input.getAttribute('type')}`
+	},
 	{
 		attribute: 'required',
 		isValid: input => input.value.trim() !== '',
 		errorMessage: (input, label) => `${label.textContent} is required`
 	}
 ];
-
 
 document.addEventListener('DOMContentLoaded', function() {
     var form = document.getElementById('profileEditForm');
@@ -37,26 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				if (!validation.isValid(input)) {
 					errorArray.push(validation.errorMessage(input, label));
 					valid = false;
-				} else {
-					error.textContent = '';
 				}
 			});
-
-			if(label == 'name') {
-				var hasNumbers = containsNumbers(input.value);
-				if(hasNumbers) {
-					error.textContent = 'Name cannot contain numbers';
-					valid = false;
-				}
-			}
-
-			if(label == 'email') {
-				var validEmail = validateEmail(input.value());
-				if(!validEmail) {
-					error.textContent = 'Invalid email';
-					valid = false;
-				}
-			}
 
 			error.textContent = errorArray.pop();
 			
@@ -75,12 +90,3 @@ function toggleEdit() {
     editProfileDiv.classList.toggle('hidden');
 	profileDiv.classList.toggle('hidden');
 };
-
-function validateEmail(email) {
-	var re = /\S+@\S+\.\S+/;
-	return re.test(email);
-}
-
-function containsNumbers(input) {
-	return /\d/.test(input);
-}

@@ -118,6 +118,7 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation->validateDate();
         $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['date'] ?? "General Date Error Message");
     }
+    
     public function test_if_invalid_validate_date()
     {
         $example_post_data = array("gallons"=>"5.5",
@@ -135,5 +136,30 @@ class FuelQuoteValidationTest extends \PHPUnit\Framework\TestCase
         $test_Validation3 = new Validation($example_post_data);
         $test_Validation3->validateDate();
         $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['date'] ?? "General Date Error Message");
+
     }
+    public function test_if_missing_or_wrong_length_validate_address()
+    {
+        $example_post_data = array("gallons"=>"5.5",
+                                   "address"=>"",
+                                   "date"=>"2055-03-01");
+        $test_Validation3 = new Validation($example_post_data);
+        $test_Validation3->validateAddress();
+        $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['address'] ?? "General Date Error Message");
+
+        $example_post_data = array("gallons"=>"5.5",
+                                   "address"=>"axe",
+                                   "date"=>"2055-03-01");
+        $test_Validation3 = new Validation($example_post_data);
+        $test_Validation3->validateAddress();
+        $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['address'] ?? "General Date Error Message");
+
+        $example_post_data = array("gallons"=>"5.5",
+                                   "address"=>"%$^#",
+                                   "date"=>"2055-03-01");
+        $test_Validation3 = new Validation($example_post_data);
+        $test_Validation3->validateAddress();
+        $this->assertNotEmpty($test_Validation3->errors(), $test_Validation3->errors()['address'] ?? "General Date Error Message");
+    }
+    
 }

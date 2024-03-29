@@ -13,9 +13,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     $errors = $validate->is_valid();
     if(empty($validate->errors())) {
          $module = new userRegister($_POST);
-        $username = $module->getUsername();
-        $password = $module->getPassword();
+         $username = $_POST["username"];
+         $password = $_POST["password"];
         
+         $module->setUsername($username);
+         $module->setUsername($password);
         // Set the current user variable
         $_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
         

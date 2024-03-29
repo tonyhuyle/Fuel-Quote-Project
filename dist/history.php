@@ -16,7 +16,7 @@ include 'connection.php';
     <div class="container mx-auto my-36 p-6 bg-white max-w-6xl rounded shadow-md">
         <div class="navbar">
 			<ul>
-			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.html" class="button-left">My Profile</a></li>
+			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.php" class="button-left">My Profile</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="FuelQuote.php">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active">View Quotes</a></li>
 			</ul>
@@ -53,7 +53,7 @@ include 'connection.php';
                     {
                         $id = $currentUserRecords[$i]["id"];
                         $date = $currentUserRecords[$i]["date"];
-                        $address = $currentUserRecords[$i]["address"];
+                        $address = $currentUserRecords[$i]["address1"];
                         $gallons = $currentUserRecords[$i]["gallons"];
                         $pricePerGallon = $currentUserRecords[$i]["suggestPrice"];
                         $totalPrice = $currentUserRecords[$i]["totalPrice"];

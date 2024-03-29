@@ -43,7 +43,7 @@ class loginValidation
 
         elseif (!preg_match($regex, $value)) 
             {
-                $this->appendErrors('username', "Username can only contain alphabetical characters");
+                $this->appendErrors('username', "Username can only contain alpha numerical characters with _ and spaces");
             } 
         
         elseif (strlen($value) < 3 || strlen($value) > 20) 

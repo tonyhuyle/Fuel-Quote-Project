@@ -12,6 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
+    $formLoginSuccessful = false;
     if(empty($validate->errors())) {
          $module = new userLogin($_POST);
          $username = $_POST["username"];
@@ -26,6 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         if(array_key_exists($username, $_SESSION["Users"])) {
             if($_SESSION["Users"][$username]["password"] == $password) {
         $_SESSION["CurrentUser"] = $username;
+        $formLoginSuccessful = true;
         header("Location: /dist/profile/profile.php");
         exit; // Make sure to exit after redirection
             }
@@ -81,9 +83,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
           <?php
                     if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
                     {
-                        echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
+                        echo "<Br><p><strong>Logged successfully! All input fields sucessfully validated.</strong></p>";
                         header("location: /dist/profile/profile.php");
-                    }?>
+
+                    
+                    }
+
+                    if($_SERVER["REQUEST_METHOD"] == "POST" and $formLoginSuccessful == false)
+                    {
+                        echo "<Br><p><strong>Login failed. Invalid Username or Password</strong></p>";
+                    }
+            ?>
+                    
+
+
 
       </form>
         <p class="mt-4 text-sm text-gray-500">

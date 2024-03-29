@@ -13,20 +13,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
     if(empty($validate->errors())) {
-        $module = new userLogin($_POST);
-        $username = $module->getUsername();
-        $password = $module->getPassword();
+         $module = new userLogin($_POST);
+         $username = $_POST["username"];
+         $password = $_POST["password"];
         
-        // Here verify the username and password against database 
+         $module->getUsername($username);
+         $module->getUsername($password);
+        // Set the current user variable
+        $_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
         
-        // Assuming authentication is successful, set session variables
-        $_SESSION["CurrentUser"] = $username; // Set the current user
-        
-        // Redirect to the profile page after successful login
+        // Redirect to the profile page after successful registration
         header("Location: /dist/profile/profile.php");
         exit; // Make sure to exit after redirection
     }
-    else
+    else 
     {
         $errors = $validate->errors();
     }

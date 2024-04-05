@@ -26,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         //$_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
 
         // Redirect to the profile page after successful registration
-        header("Location: /dist/profile/profile.php");
+        header("Location: ../dist/profile/profile.php");
         exit; // Make sure to exit after redirection
     }
     else 

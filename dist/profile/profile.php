@@ -108,7 +108,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getName()?>" 
                             ><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>
 
 				<div class="formGroup">
@@ -122,7 +122,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getEmail()?>" 
                             ><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>
 
 				<div class="formGroup">
@@ -136,7 +136,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getAddress1()?>" 
                             ><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>
 
 				<div class="formGroup">
@@ -147,7 +147,7 @@
                             id="address2"
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getAddress2()?>"><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>
 
 				<div class="formGroup">
@@ -161,7 +161,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getCity()?>" 
                             ><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>			
 
 				<div class="formGroup">
@@ -225,7 +225,7 @@
                         <option value="WI">WI</option>
                         <option value="WY">WY</option>
                     </select><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
 	            </div>		
 
                 <div class="formGroup">
@@ -239,7 +239,7 @@
                             class="w-full p-2 border border-gray-300 rounded-md" 
                             value="<?php echo $user->getZip()?>" 
                             ><br>
-                    <span class="error text-red-700"></span><br>
+                    <span class="error font-semibold text-red-700"></span><br>
                 </div>			
 
 				<input type="submit" value="submit" class="rounded shadow-md block p-3" id="submitProfileButton">

@@ -34,6 +34,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $errors = $validate->errors();
     }
 }
+
+/* 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Establish database connection
+    $dbconn = pg_connect("host=localhost dbname=mydatabase user=myuser password=mypassword");
+    if (!$dbconn) {
+        die("Error: Unable to connect to the database.");
+    }
+    
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
+
+    // Prepare SQL statement to insert user data
+    $query = "INSERT INTO users (username, password) VALUES ($1, $2)";
+    $result = pg_prepare($dbconn, "insert_user", $query);
+    $result = pg_execute($dbconn, "insert_user", array($username, $password));
+
+    if ($result) {
+        // Registration successful, set current user variable
+        $_SESSION["CurrentUser"] = $username;
+        // Redirect to the profile page after successful registration
+        header("Location: ../dist/profile/profile.php");
+        exit; // Make sure to exit after redirection
+    } else {
+        // Registration failed, handle errors
+        $errors[] = "Registration failed. Please try again.";
+    }
+
+    // Close database connection
+    pg_close($dbconn);
+}
+*/
 ?>
 
 <!DOCTYPE html>

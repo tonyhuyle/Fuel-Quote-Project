@@ -7,7 +7,7 @@ use PhpFiles\userLogin;
 use PhpFiles\loginValidation;
 $errors = array();
 include('connection.php');
-
+/*
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $validate = new loginValidation($_POST);
@@ -39,8 +39,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $errors = $validate->errors();
     }
 }
-
-/* if ($_SERVER["REQUEST_METHOD"] == "POST") {
+*/
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
     $formLoginSuccessful = false;
@@ -53,7 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
          $module->getUsername($password);
     }
     // Establish database connection
-    $dbconn = pg_connect("host=localhost dbname=mydatabase user=postgres password=postgres");
+    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=root");
     if (!$dbconn) {
         die("Error: Unable to connect to the database.");
     }
@@ -65,9 +65,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
     // Check if user exists and verify password
     if ($row = pg_fetch_assoc($result)) {
-        if (password_verify($password, $row['password'])) {
+        if (password_verify($password, $row['passwordhash'])) {
             // Set the current user variable
-            $_SESSION["CurrentUser"] = $username;
+            $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
+            $query ->execute([$username]);
+            $user = $query->fetch();
+            
+            $_SESSION["CurrentUser"] = $user['userid'];
             $formLoginSuccessful = true;
             header("Location: ../dist/profile/profile.php");
             exit; // Make sure to exit after redirection
@@ -80,7 +84,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
     // Close database connection
     pg_close($dbconn);
 }
-    */
 ?>
 
 <!DOCTYPE html>

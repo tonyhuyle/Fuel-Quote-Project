@@ -5,7 +5,6 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userRegister; 
 use PhpFiles\registerValidation;
 $errors = array();
-include('connection.php');
 /*
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -40,44 +39,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $validate = new registerValidation($_POST);
     $errors = $validate->is_valid();
     if(empty($validate->errors())) {
-         $module = new userRegister($_POST);
          $username = $_POST["username"];
          $password = $_POST["password"];
 
-         $module->setUsername($username);
-         $module->setUsername($password);
+         $passwordhash = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
+
+        // Prepare SQL statement to insert user data
+        $query = $pdo->prepare("INSERT INTO users (username, passwordhash) VALUES (?, ?)");
+        $result = $query->execute([$username, $passwordhash]);
+        if($result) {
+            // Set the current user variable
+            $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
+            $query ->execute([$username]);
+            $user = $query->fetch();
+            $_SESSION["CurrentUser"] = $user['userid'];
+            header("Location: ../dist/profile/profile.php");
+        } else {
+            $errors[] = "Registration failed. Please try again.";
+        }
     }
-
-    // Establish database connection
-    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=root");
-    if (!$dbconn) {
-        die("Error: Unable to connect to the database.");
+    else 
+    {
+        $errors = $validate->errors();
     }
-    
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
-
-    // Prepare SQL statement to insert user data
-    $query = "INSERT INTO users (username, passwordhash) VALUES ($1, $2)";
-    $result = pg_prepare($dbconn, "insert_user", $query);
-    $result = pg_execute($dbconn, "insert_user", array($username, $password));
-
-    $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
-    $query ->execute([$username]);
-    $user = $query->fetch();
-    if ($result) {
-        // Registration successful, set current user variable
-        $_SESSION["CurrentUser"] = $user['userid'];
-        // Redirect to the profile page after successful registration
-        header("Location: ../dist/profile/profile.php");
- // Make sure to exit after redirection
-    } else {
-        // Registration failed, handle errors
-        $errors[] = "Registration failed. Please try again.";
-    }
-
-    // Close database connection
-    pg_close($dbconn);
-}
+}  
 ?>
 
 <!DOCTYPE html>
@@ -129,13 +114,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
               Register
                 </button> 
-
-            <?php
-                    if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
-                    {
-                        echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
-                        header("location: /dist/profile/profile.php");
-                    }?>
         </form>
         </p>
       </div>

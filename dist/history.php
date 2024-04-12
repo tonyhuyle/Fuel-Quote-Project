@@ -33,8 +33,8 @@
         </style>
             <thead>
                 <tr bgcolor="#D6EEEE">
-                    <th>id</th>
-                    <th>date</th>
+                    <th>Fuel Quote ID</th>
+                    <th>Delivery Date</th>
                     <th>address</th>
                     <th>Gallons Requested</th>
                     <th>Price/Gallon</th>
@@ -55,24 +55,23 @@
                         // or die('Could not connect: ' . pg_last_error());
                     // Performing SQL query
                     // $name1 = "d0ca07c1-b0e2-4b79-8554-4ab885314813";    
-                        $query = "SELECT id, date, address, gallons, price, total FROM history where owner = ?;";
+                        $query = "SELECT quoteid, deliverydate, deliveryaddress, gallonsrequested, suggestedprice, totalamountdue FROM fuelquotehistory where userid = ?;";
                         // $result = pg_query($query) or die('Query failed: ' . pg_last_error());
                         $stmt = $pdo->prepare($query);
-                        $stmt->execute([$CurrentUser]);
+                        $stmt->execute([$currentUser]);
                         $result = $stmt->fetchAll();
                     // echo $query;
                     // Printing results in HTML
                     foreach ($result as $line) {
                         echo "\t<tr bgcolor=\"white\">\n";
-                        foreach ($line as $col_value) {
-                            echo "\t\t<td>$col_value</td>\n";
-                        }
+                        echo "\t\t<td>$line[0]</td>\n";
+                        echo "\t\t<td>$line[1]</td>\n";
+                        echo "\t\t<td>$line[2]</td>\n";
+                        echo "\t\t<td>$line[3]</td>\n";
+                        echo "\t\t<td>$line[4]</td>\n";
+                        echo "\t\t<td>$line[5]</td>\n";
                         echo "\t</tr>\n";
                     }
-
-                    pg_free_result($result);
-
-                    pg_close($dbconn);
                 }
                     ?>
 

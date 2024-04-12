@@ -9,7 +9,7 @@
     <title>Fuel Quote History</title>
 </head>
 <?php
-    // include 'connection.php';
+    include 'connection.php';
 
 ?>
 <body class="bg-cover bg-center flex items-center justify-center h-screen" background=images/Refinery.jpg>     
@@ -42,20 +42,23 @@
                 </tr>
             </thead>
                 <?php
-                    echo $currentUser;
+                    // echo $currentUser;
+
                     if(!isset($_SESSION["CurrentUser"])){
                         header("Location: login.php");
                     }
                     else{
                         $currentUser = $_SESSION["CurrentUser"];
                     // Connecting, selecting database
-                        $dbconn = pg_connect("dbname=my_project")
-                        or die('Could not connect: ' . pg_last_error());
+                        global $pdo;
+                        // $dbconn = pg_connect("dbname=my_project")
+                        // or die('Could not connect: ' . pg_last_error());
                     // Performing SQL query
                     // $name1 = "d0ca07c1-b0e2-4b79-8554-4ab885314813";    
-                        $query = "SELECT id, date, address, gallons, price, total FROM history where owner = '%s';";
-                        $query = sprintf($query, $currentUser);
-                        $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+                        $query = "SELECT id, date, address, gallons, price, total FROM history where owner = ?;";
+                        // $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+                        $stmt->execute([$CurrentUser]);
+                        $result = $stmt->fetchAll();
                     // echo $query;
                     // Printing results in HTML
                     while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {

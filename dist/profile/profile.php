@@ -2,7 +2,7 @@
     session_start();
  	require( __DIR__ . '/../../PhpFiles/profileManagement.php');
 	require( __DIR__ . '/../../PhpFiles/profileValidation.php');
-	require(__DIR__ . '/../newconnection.php');
+	require(__DIR__ . '/../connection.php');
 	use PhpFiles\userProfile; 
 	use PhpFiles\profileValidation;
 	// hardcode session variable

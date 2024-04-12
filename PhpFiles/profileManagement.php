@@ -14,7 +14,7 @@ class userProfile {
     public function __construct($CurrentUser) {
         // Get the user's profile information from the database and store it in the object
         global $pdo;
-        $stmt = $pdo->prepare(" SELECT user.username, users.email, profiles.fullname, profiles.address1, profiles.address2, profiles.city, profiles.userstate, profiles.zipcode
+        $stmt = $pdo->prepare(" SELECT users.username, users.email, profiles.fullname, profiles.address1, profiles.address2, profiles.city, profiles.userstate, profiles.zipcode
                                 FROM users
                                 JOIN profiles ON users.userid = profiles.userid
                                 WHERE users.userid = ?

@@ -1,12 +1,13 @@
 <?php
-
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 $appName = $_SERVER['HTTP_HOST'] ?? 'defaulthost';
 $appName .= $_SERVER['REQUEST_URI'] ?? 'defaulturi';
 
 $dsn = 'pgsql:host=localhost;dbname=postgres;options=\'--application_name=' . $appName . '\'';
 $user = 'postgres';
-$password = 'root';
+$password = 'meggyeggy';
 
 
 // Create a PDO instance

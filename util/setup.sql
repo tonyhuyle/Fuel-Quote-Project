@@ -24,3 +24,16 @@ CREATE TABLE fuel_quotes (
     total real
 );
 
+CREATE OR REPLACE FUNCTION create_profile_after_user_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+   INSERT INTO profiles(userid) VALUES (NEW.userid);
+   RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER after_user_insert
+AFTER INSERT ON users
+FOR EACH ROW EXECUTE FUNCTION create_profile_after_user_insert();
+
+

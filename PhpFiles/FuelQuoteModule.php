@@ -9,6 +9,12 @@
         private $suggestPrice = 3.02;
         private $totalPrice = 0;
         private $errors = array();
+        protected $pdo;
+        protected function setUp(): void
+        {
+            require __DIR__ . '/../dist/connection.php';
+            $this->pdo = $pdo;
+        }
 
         public function __construct($post_data)
         {
@@ -60,6 +66,22 @@
         }
         public function InsertFuelQuote($CurrentUser)
         {
+            $this->setUp();
+            $pdo = $this->pdo;
+            try{
+            $pdo->beginTransaction();
+            $psCompliantDate = (new \DateTime($this->getDate()))->format('Y-m-d');
+            $stmt = $pdo->prepare('INSERT INTO fuelquotehistory (userid, gallonsrequested, deliveryaddress, requestdate, deliverydate, suggestedprice, totalamountdue) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $params = array($CurrentUser, $this->getGallons(), $this->getAddress(), date('Y/m/d'), $psCompliantDate, $this->getSuggestedPrice(), $this->getTotalPrice());
+            $stmt->execute($params);
+            $pdo->commit();
+            }
+            catch(\PDOException $e)
+            {
+                $pdo->rollBack();
+                throw $e;
+            }
+            /*
             $params = array($this->getDate(), $this->getAddress(), $this->getGallons(), $this->getSuggestedPrice(), $this->getTotalPrice(), $CurrentUser);
             $db_connection = pg_connect("host=localhost dbname=myDB user=postgres password=root"); //change myDB to postgres
             if(!$db_connection) // If connection failed
@@ -86,8 +108,8 @@
             
             $row = pg_fetch_row($testResult);
             $row_count = $row[0];
-            */
             pg_close($db_connection);
+            */
         }
         public function getErrors()
         {

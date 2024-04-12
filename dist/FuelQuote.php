@@ -6,7 +6,9 @@
     use PhpFiles\FuelQuoteValidation;
     $errors = array();
     if(!isset($_SESSION["CurrentUser"])){
-        header("Location: /login.php");
+        #header("Location: /login.php");
+        #$_SEESION["CurrentUser"] = "727ddc29-248e-4c17-9382-a3729dd5b73a";
+        $currentUser = $_SESSION["CurrentUser"];
     }
     else
     {
@@ -41,7 +43,7 @@
 
             }
             */
-            $module-> InsertFuelQuote("John Adams"); //Replace with $SESSION[$currentUser] in A4 submission.
+            $module-> InsertFuelQuote($currentUser);
             $FormSubmitSuccesful = TRUE;
         }
         else

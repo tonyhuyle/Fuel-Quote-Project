@@ -7,7 +7,7 @@ $appName .= $_SERVER['REQUEST_URI'] ?? 'defaulturi';
 
 $dsn = 'pgsql:host=localhost;dbname=postgres;options=\'--application_name=' . $appName . '\'';
 $user = 'postgres';
-$password = 'meggyeggy';
+$password = 'root';
 
 
 // Create a PDO instance

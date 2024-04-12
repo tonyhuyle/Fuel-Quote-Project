@@ -39,6 +39,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $errors = $validate->errors();
     }
 }
+
+/* if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     $validate = new loginValidation($_POST);
+    $errors = $validate->is_valid();
+    $formLoginSuccessful = false;
+    if(empty($validate->errors())) {
+         $module = new userLogin($_POST);
+         $username = $_POST["username"];
+         $password = $_POST["password"];
+        
+         $module->getUsername($username);
+         $module->getUsername($password);
+    }
+    // Establish database connection
+    $dbconn = pg_connect("host=localhost dbname=mydatabase user=postgres password=postgres");
+    if (!$dbconn) {
+        die("Error: Unable to connect to the database.");
+    }
+
+    // Prepare SQL statement to fetch user data
+    $query = "SELECT * FROM users WHERE username = $1";
+    $result = pg_prepare($dbconn, "fetch_user", $query);
+    $result = pg_execute($dbconn, "fetch_user", array($username));
+
+    // Check if user exists and verify password
+    if ($row = pg_fetch_assoc($result)) {
+        if (password_verify($password, $row['password'])) {
+            // Set the current user variable
+            $_SESSION["CurrentUser"] = $username;
+            $formLoginSuccessful = true;
+            header("Location: ../dist/profile/profile.php");
+            exit; // Make sure to exit after redirection
+        }
+    }
+
+    // If credentials are not valid, set error message
+    $errors[] = "Invalid username or password";
+
+    // Close database connection
+    pg_close($dbconn);
+}
+    */
 ?>
 
 <!DOCTYPE html>

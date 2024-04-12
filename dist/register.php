@@ -34,6 +34,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $errors = $validate->errors();
     }
 }
+
+/* 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $validate = new registerValidation($_POST);
+    $errors = $validate->is_valid();
+    if(empty($validate->errors())) {
+         $module = new userRegister($_POST);
+         $username = $_POST["username"];
+         $password = $_POST["password"];
+
+         $module->setUsername($username);
+         $module->setUsername($password);
+    }
+
+    // Establish database connection
+    $dbconn = pg_connect("host=localhost dbname=mydatabase user=postgres password=postgres");
+    if (!$dbconn) {
+        die("Error: Unable to connect to the database.");
+    }
+    
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
+
+    // Prepare SQL statement to insert user data
+    $query = "INSERT INTO users (username, password) VALUES ($1, $2)";
+    $result = pg_prepare($dbconn, "insert_user", $query);
+    $result = pg_execute($dbconn, "insert_user", array($username, $password));
+
+    if ($result) {
+        // Registration successful, set current user variable
+        $_SESSION["CurrentUser"] = $username;
+        // Redirect to the profile page after successful registration
+        header("Location: ../dist/profile/profile.php");
+        exit; // Make sure to exit after redirection
+    } else {
+        // Registration failed, handle errors
+        $errors[] = "Registration failed. Please try again.";
+    }
+
+    // Close database connection
+    pg_close($dbconn);
+}
+*/
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +104,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
 
-            <label for="password" class="block mt-4 text-sm text-gray-500">Password:</label>
+            <label for="password" class="block mt-4 text-sm text-gray-500">Password (At least 1 number and 1 special character):</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" class="mt-1 p-2 w-full border rounded-md">
 
             <?php

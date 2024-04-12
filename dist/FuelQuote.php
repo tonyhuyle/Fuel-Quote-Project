@@ -5,7 +5,13 @@
     use PhpFiles\FuelQuoteModule;
     use PhpFiles\FuelQuoteValidation;
     $errors = array();
-    include('connection.php');
+    if(!isset($_SESSION["CurrentUser"])){
+        header("Location: /login.php");
+    }
+    else
+    {
+        $currentUser = $_SESSION["CurrentUser"];
+    }
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $validate = new FuelQuoteValidation($_POST);
@@ -14,7 +20,9 @@
         if(empty($validate->errors())) //No errors popped up so go ahead and assign form data to Module
         {
             $module = new FuelQuoteModule($_POST);
+            /* OLD HARDCODED CODE.
             $id = rand(10000000, 99999999);
+            
             $gallons = $module->getGallons();
             $address = $module->getAddress();
             $date = $module->getDate();
@@ -32,6 +40,8 @@
 
 
             }
+            */
+            $module-> InsertFuelQuote("John Adams"); //Replace with $SESSION[$currentUser] in A4 submission.
             $FormSubmitSuccesful = TRUE;
         }
         else

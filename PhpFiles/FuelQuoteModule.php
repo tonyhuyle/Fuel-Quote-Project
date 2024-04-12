@@ -8,6 +8,7 @@
         private $date = "03/28/2024";
         private $suggestPrice = 3.02;
         private $totalPrice = 0;
+        private $errors = array();
 
         public function __construct($post_data)
         {
@@ -56,6 +57,41 @@
         public function getTotalPrice()
         {
             return $this->totalPrice;
+        }
+        public function InsertFuelQuote($CurrentUser)
+        {
+            $params = array($this->getDate(), $this->getAddress(), $this->getGallons(), $this->getSuggestedPrice(), $this->getTotalPrice(), $CurrentUser);
+            $db_connection = pg_connect("host=localhost dbname=myDB user=postgres password=root"); //change myDB to postgres
+            if(!$db_connection) // If connection failed
+            {
+                $this->errors["Connection Exectution Error:"] = "Failed to Connect to DB: ";
+            }
+            else 
+            {
+                $result = pg_query_params($db_connection, 'INSERT INTO public."History" ("DeliveryDate", "StreetAddress", "Gallons_Request", "Price_Per_Gallon", "Total_Price", "Username") 
+                VALUES ($1, $2, $3, $4, $5, $6)', $params); //change to postgres.
+                if(!$result) // If Insert query failed
+                {
+                    $this->errors["Query Exectution Error:"] = "Failed to Execute Query: ";
+                }
+            }
+            /*
+            $test = 'SELECT COUNT(*) FROM public."History"';
+            $testResult = pg_query($db_connection, $test);
+            if(!$testResult)
+            {
+                echo "Failed to count Rows";
+                return;
+            }
+            
+            $row = pg_fetch_row($testResult);
+            $row_count = $row[0];
+            */
+            pg_close($db_connection);
+        }
+        public function getErrors()
+        {
+            return $this->errors;
         }
 
     }

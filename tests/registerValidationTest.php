@@ -39,7 +39,7 @@ class registerValidationTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function test_if_invalid_validate_name(){
-        $example_post_data = array("username"=>"JohnDoe",
+        $example_post_data = array("username"=>"John)Doe",
                                    "password"=>"Password1!");
         $test_Validation2 = new Validation($example_post_data);
         $test_Validation2->validateUserName();

@@ -11,7 +11,6 @@ $password = 'root';
 
 // Create a PDO instance
 $pdo = new PDO($dsn, $user, $password);
-var_dump($pdo);
 
 // Check connection
 if (!$pdo) {

@@ -6,7 +6,6 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userLogin; 
 use PhpFiles\loginValidation;
 $errors = array();
-include('connection.php');
 /*
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -41,48 +40,40 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 }
 */
  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     $validate = new loginValidation($_POST);
+    $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
-    $formLoginSuccessful = false;
     if(empty($validate->errors())) {
-         $module = new userLogin($_POST);
          $username = $_POST["username"];
          $password = $_POST["password"];
-        
-         $module->getUsername($username);
-         $module->getUsername($password);
-    }
-    // Establish database connection
-    $dbconn = pg_connect("host=localhost dbname=postgres user=postgres password=root");
-    if (!$dbconn) {
-        die("Error: Unable to connect to the database.");
-    }
 
-    // Prepare SQL statement to fetch user data
-    $query = "SELECT * FROM users WHERE username = $1";
-    $result = pg_prepare($dbconn, "fetch_user", $query);
-    $result = pg_execute($dbconn, "fetch_user", array($username));
+         // Prepare SQL statement to fetch user data
+        $query = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
+        $query->execute([$username]);
+        $result = $query->fetch();
 
-    // Check if user exists and verify password
-    if ($row = pg_fetch_assoc($result)) {
-        if (password_verify($password, $row['passwordhash'])) {
-            // Set the current user variable
-            $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
-            $query ->execute([$username]);
-            $user = $query->fetch();
-            
-            $_SESSION["CurrentUser"] = $user['userid'];
-            $formLoginSuccessful = true;
-            header("Location: ../dist/profile/profile.php");
-            exit; // Make sure to exit after redirection
+        // Check if user exists and verify password
+        if ($result) {
+            if (password_verify($password, $result['passwordhash'])) {
+                // Set the current user variable
+                $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
+                $query ->execute([$username]);
+                $user = $query->fetch();
+                
+                $_SESSION["CurrentUser"] = $user['userid'];
+                header("Location: ../dist/profile/profile.php");
+                exit; // Make sure to exit after redirection
+            }
+            else {
+                // If password is incorrect, set error message
+                $errors[] = "Invalid username or password";
+            }
         }
+        // If credentials are not valid, set error message
+        $errors[] = "Invalid username or password";
     }
-
-    // If credentials are not valid, set error message
-    $errors[] = "Invalid username or password";
-
-    // Close database connection
-    pg_close($dbconn);
+    else {
+        $errors = $validate->errors();
+    }
 }
 ?>
 
@@ -124,25 +115,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
           <button class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
             Login
           </button>
-
-          <?php
-                    if($_SERVER["REQUEST_METHOD"] == "POST" and empty($errors))
-                    {
-                        echo "<Br><p><strong>Logged successfully! All input fields sucessfully validated.</strong></p>";
-                        header("location: ../dist/profile/profile.php");
-
-                    
-                    }
-
-                    if($_SERVER["REQUEST_METHOD"] == "POST" and $formLoginSuccessful == false)
-                    {
-                        echo "<Br><p><strong>Login failed. Invalid Username or Password</strong></p>";
-                    }
-            ?>
-                    
-
-
-
       </form>
         <p class="mt-4 text-sm text-gray-500">
           Don't have an account? <a href="register.php" class="text-blue-500">Register here</a>.

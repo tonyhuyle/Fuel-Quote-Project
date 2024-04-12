@@ -15,9 +15,8 @@ class userProfile {
         require __DIR__ . '/../dist/connection.php';
         $this->pdo = $pdo;
     }
-
     public function __construct($CurrentUser) {
-        // Get the user's profile information from the database and store it in the object
+        // Get the user's profile information via their uuid from the database and store it in the object
         $this->setUp();
         $pdo = $this->pdo;
         $stmt = $pdo->prepare(" SELECT users.username, users.email, profiles.fullname, profiles.address1, profiles.address2, profiles.city, profiles.userstate, profiles.zipcode
@@ -76,12 +75,13 @@ class userProfile {
         $pdo = $this->pdo;
         try{
             $pdo->beginTransaction();
-            
+
             $stmt1 = $pdo->prepare('UPDATE profiles
                                     SET fullname = ?, address1 = ?, address2 = ?, city = ?, userstate = ?, zipcode = ?
                                     WHERE userid = ?
                                     ');
             $stmt1->execute([$name, $address1, $address2, $city, $state, $zip, $currentUser]);
+
             $stmt2 = $pdo->prepare('UPDATE users
                                     SET email = ?
                                     WHERE userid = ?
@@ -92,7 +92,8 @@ class userProfile {
         }
         catch(\PDOException $e){
             $pdo->rollBack();
-            throw $e;
+            error_log($e->getMessage());
+            throw new \Exception('An error occurred while updating your profile. Please try again.');
         }
         
         // Update the user's profile information in the object

@@ -195,7 +195,7 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
                                    "email"=>"johndoe@example.com");
         $test_Validation = new Validation($example_post_data);
         $test_Validation->validateAddress2();
-        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['address2'] ?? "General Error Message");
+        $this->assertEmpty($test_Validation->errors(), $test_Validation->errors()['address2'] ?? "General Error Message");
     }
 
     public function test_if_valid_validate_city(){

@@ -4,17 +4,19 @@
     require( __DIR__ . '/../connection.php');
 	use PhpFiles\userProfile; 
 	use PhpFiles\profileValidation;
-	// hardcode session variable
+
+	//If the user is not logged in, redirect to the login page
 	if(!isset($_SESSION["CurrentUser"])){
         header("Location: ../login.php");
     }
+    //If the user is logged in, get the user's uuid from the session and create a new userProfile object
 	else{
 		$currentUser = $_SESSION["CurrentUser"];
 		$user = new userProfile($currentUser);
 	}
-
+    // Update the user's profile information 
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
-		// Update the user's profile information 
+		//Sanitize the input
 		$post = array(
 			'name' => htmlspecialchars($_POST['name']),
 			'email' => htmlspecialchars($_POST['email']),
@@ -24,18 +26,28 @@
 			'state' => htmlspecialchars($_POST['state']),
 			'zip' => htmlspecialchars($_POST['zip']),
 		);
+        //Validate the input
 		$validate = new profileValidation($post);
 		$validate->is_valid();
 		$errors = $validate->errors();
+        //If there are errors, display an alert
 		if(!empty($errors))
 		{
             echo '<script type="text/javascript">';
             echo 'alert("Something went wrong, please make sure all submissions are valid");';
             echo '</script>';
 		}
+        //If there are no errors, update the user's profile information and refresh the page
 		else{
-			$user->updateProfile($currentUser, $post['name'], $post['email'], $post['address1'], $post['address2'], $post['city'], $post['state'], $post['zip']);
-			header("Location: profile.php");
+            try{
+                $user->updateProfile($currentUser, $post['name'], $post['email'], $post['address1'], $post['address2'], $post['city'], $post['state'], $post['zip']);
+			    header("Refresh:0");
+            } catch (Exception $e){
+                echo '<script type="text/javascript">';
+                echo $e->getMessage();
+                echo '</script>';
+            }
+			
 		}
 	}
 ?>
@@ -57,7 +69,7 @@
 			<li class="font-semibold text-gray-800 mb-4"><a href="../history.php">View Quotes</a></li>
 			</ul>
 		</div>
-		<h2 class="text-2xl mb-4">Welcome, <span class="font-semibold"><?php echo $user->getName() ?></span>!</h2>
+		<h2 class="text-2xl mb-4">Welcome, <span class="font-semibold"><?php echo $user->getName() ?></span></h2>
 		<div class="block text-sm p-2" id="showProfile">
 			<label class="font-semibold" for="username">Username</label><br>
 			<span id="username"><?php echo $user->getUsername()?></span><br><br>

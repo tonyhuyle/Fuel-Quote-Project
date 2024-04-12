@@ -106,9 +106,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
           <input type="password" id="password" name="password" placeholder="Enter your password" class="mt-1 p-2 w-full border rounded-md">
       
           <?php
-                    if($_SERVER["REQUEST_METHOD"] == "POST" and !empty($errors) and array_key_exists("password", $errors) )
+                    if($_SERVER["REQUEST_METHOD"] == "POST" and !empty($errors))
                     {
-                        $message = $errors["password"];
+                        $message = $errors[0];
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
 

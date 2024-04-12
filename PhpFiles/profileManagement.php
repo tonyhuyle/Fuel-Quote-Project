@@ -11,32 +11,26 @@ class userProfile {
     public $zip;
     public $email;
 
-    public function __construct($username, $name='', $address1='', $address2='', $city='', $state='', $zip='', $email='') {
+    public function __construct($CurrentUser) {
         // Get the user's profile information from the database and store it in the object
-        /*global $pdo;
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
-        $stmt->execute([$username]);
-        $user = $stmt->fetch_assoc();
-
-        $this->username = htmlspecialchars($user['username']);
-        $this->name = htmlspecialchars($user['name']);
-        $this->address1 = htmlspecialchars($user['address1']);
-        $this->address2 = htmlspecailchars($user['address2']);
-        $this->city = htmlspecialchars($user['city']);
-        $this->state = htmlspecialchars($user['state']);
-        $this->zip = htmlspecialchars($user['zip']);
-        $this->email = htmlspecialchars($user['email']);
-        */
-
-        // hardcode the user's profile information for now -- this will be removed when we have a database
-        $this->username = $username;
-        $this->name = $name;
-        $this->address1 = $address1;
-        $this->address2 = $address2;
-        $this->city = $city;
-        $this->state = $state;
-        $this->zip = $zip;
-        $this->email = $email;
+        global $pdo;
+        $stmt = $pdo->prepare(" SELECT user.username, users.email, profiles.fullname, profiles.address1, profiles.address2, profiles.city, profiles.userstate, profiles.zipcode
+                                FROM users
+                                JOIN profiles ON users.userid = profiles.userid
+                                WHERE users.userid = ?
+                                LIMIT 1
+                                ");
+        $stmt->execute([$CurrentUser]);
+        $user = $stmt->fetch();
+        
+        $this->name = $user['fullname'];
+        $this->username = $user['username'];
+        $this->address1 = $user['address1'];
+        $this->address2 = $user['address2'];
+        $this->city = $user['city'];
+        $this->state = $user['userstate'];
+        $this->zip = $user['zipcode'];
+        $this->email = $user['email'];
     }
 
     public function getName(){
@@ -71,20 +65,29 @@ class userProfile {
         return $this->email;
     }
 
-    public function updateProfile($name, $email, $address1, $address2, $city, $state, $zip){
+    public function updateProfile($currentUser, $name, $email, $address1, $address2, $city, $state, $zip){
         // Update the user's profile information in the database
-        /*global $pdo;
-        $stmt = $pdo->prepare("UPDATE users SET name = ?, email = ?, address1 = ?, address2 = ?, city = ?, state = ?, zip = ? WHERE username = ?");
-        $stmt->execute([$name, $email, $address1, $address2, $city, $state, $zip, $this->username]);
-        */
-        // Update the user's profile information in the session -- this is temporary will be removed when we have a database
-        $_SESSION['Users'][$this->getUsername()]['name'] = $name;
-        $_SESSION['Users'][$this->getUsername()]['email'] = $email;
-        $_SESSION['Users'][$this->getUsername()]['address1'] = $address1;
-        $_SESSION['Users'][$this->getUsername()]['address2'] = $address2;
-        $_SESSION['Users'][$this->getUsername()]['city'] = $city;
-        $_SESSION['Users'][$this->getUsername()]['state'] = $state;
-        $_SESSION['Users'][$this->getUsername()]['zip'] = $zip;
+        global $pdo;
+        try{
+            $pdo->beginTransaction();
+            
+            $stmt1 = $pdo->prepare('UPDATE profiles
+                                    SET fullname = ?, address1 = ?, address2 = ?, city = ?, userstate = ?, zipcode = ?
+                                    WHERE userid = ?
+                                    ');
+            $stmt1->execute([$name, $address1, $address2, $city, $state, $zip, $currentUser]);
+            $stmt2 = $pdo->prepare('UPDATE users
+                                    SET email = ?
+                                    WHERE userid = ?
+                                    ');
+            $stmt2->execute([$email, $currentUser]);
+
+            $pdo->commit();
+        }
+        catch(\PDOException $e){
+            $pdo->rollBack();
+            throw $e;
+        }
         
         // Update the user's profile information in the object
         $this->name = $name;

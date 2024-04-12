@@ -1,23 +1,17 @@
  <?php
+    session_start();
  	require( __DIR__ . '/../../PhpFiles/profileManagement.php');
 	require( __DIR__ . '/../../PhpFiles/profileValidation.php');
-	require(__DIR__ . '/../connection.php');
+	require(__DIR__ . '/../newconnection.php');
 	use PhpFiles\userProfile; 
 	use PhpFiles\profileValidation;
 	// hardcode session variable
-	if(!array_key_exists("CurrentUser", $_SESSION)){
-		header("Location: ../login.php");
-	}
+	if(!isset($_SESSION["CurrentUser"])){
+        header("Location: ../login.php");
+    }
 	else{
 		$currentUser = $_SESSION["CurrentUser"];
-		$user = new userProfile($currentUser, 
-								$_SESSION['Users'][$currentUser]['name'], 
-								$_SESSION['Users'][$currentUser]['address1'], 
-								$_SESSION['Users'][$currentUser]['address2'], 
-								$_SESSION['Users'][$currentUser]['city'], 
-								$_SESSION['Users'][$currentUser]['state'], 
-								$_SESSION['Users'][$currentUser]['zip'],
-                                $_SESSION['Users'][$currentUser]['email']);
+		$user = new userProfile($currentUser);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -41,7 +35,7 @@
             echo '</script>';
 		}
 		else{
-			$user->updateProfile($post['name'], $post['email'], $post['address1'], $post['address2'], $post['city'], $post['state'], $post['zip']);
+			$user->updateProfile($currentUser, $post['name'], $post['email'], $post['address1'], $post['address2'], $post['city'], $post['state'], $post['zip']);
 			header("Location: profile.php");
 		}
 	}

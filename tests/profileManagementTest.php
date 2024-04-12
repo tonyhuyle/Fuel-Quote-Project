@@ -17,9 +17,9 @@ class ProfileManagementTest extends \PHPUnit\Framework\TestCase
         $pdo = $this->pdo;
         //sample data to be used for testing, some is obviosly invalid
         $sampleData = array(
-            'username' => 'testUsername',
+            'username' => 'testUsername3',
             'password' => 'testPassword',
-            'email' => 'testEmail', //invalid email to ensure it is not used, but it is unique
+            'email' => 'testEmail3', //invalid email to ensure it is not used, but it is unique
             'name' => 'testName',
             'address1' => 'testAddress1',
             'address2' => 'testAddress2', 
@@ -65,9 +65,9 @@ class ProfileManagementTest extends \PHPUnit\Framework\TestCase
         $pdo = $this->pdo;
         //sample data to be used for testing, some is invalid to cause a database error
         $sampleData = array(
-            'username' => 'testUsername',
+            'username' => 'testUsername4',
             'password' => 'testPassword',
-            'email' => 'testEmail', //invalid email to ensure it is not used, but it is unique
+            'email' => 'testEmail4', //invalid email to ensure it is not used, but it is unique
             'name' => 'testName',
             'address1' => 'testAddress1',
             'address2' => 'testAddress2', 

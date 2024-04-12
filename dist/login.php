@@ -41,14 +41,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 }
 
 /* if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $validate = new registerValidation($_POST);
+    $errors = $validate->is_valid();
+    if(empty($validate->errors())) {
+         $module = new userRegister($_POST);
+         $username = $_POST["username"];
+         $password = $_POST["password"];
+
+         $module->setUsername($username);
+         $module->setUsername($password);
+    }
     // Establish database connection
-    $dbconn = pg_connect("host=localhost dbname=mydatabase user=myuser password=mypassword");
+    $dbconn = pg_connect("host=localhost dbname=mydatabase user=postgres password=postgres");
     if (!$dbconn) {
         die("Error: Unable to connect to the database.");
     }
 
     // Prepare SQL statement to fetch user data
-    $query = "SELECT * FROM users WHERE username = placehold";
+    $query = "SELECT * FROM users WHERE username = $1";
     $result = pg_prepare($dbconn, "fetch_user", $query);
     $result = pg_execute($dbconn, "fetch_user", array($username));
 

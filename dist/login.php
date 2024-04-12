@@ -6,40 +6,8 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userLogin; 
 use PhpFiles\loginValidation;
 $errors = array();
-/*
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
-    $validate = new loginValidation($_POST);
-    $errors = $validate->is_valid();
-    $formLoginSuccessful = false;
-    if(empty($validate->errors())) {
-         $module = new userLogin($_POST);
-         $username = $_POST["username"];
-         $password = $_POST["password"];
-        
-         $module->getUsername($username);
-         $module->getUsername($password);
-        // Set the current user variable
-     // Assuming $username is the user's identifier
-        
-        // Redirect to the profile page after successful registration
-        if(array_key_exists($username, $_SESSION["Users"])) {
-            if($_SESSION["Users"][$username]["password"] == $password) {
-        $_SESSION["CurrentUser"] = $username;
-        $formLoginSuccessful = true;
-        header("Location: ../dist/profile/profile.php");
-        exit; // Make sure to exit after redirection
-            }
-        }
-        
-    }
-    else 
-    {
-        $errors = $validate->errors();
-    }
-}
-*/
- if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
     if(empty($validate->errors())) {
@@ -47,32 +15,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
          $password = $_POST["password"];
 
          // Prepare SQL statement to fetch user data
-        $query = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
-        $query->execute([$username]);
-        $result = $query->fetch();
-
-        // Check if user exists and verify password
-        if ($result) {
-            if (password_verify($password, $result['passwordhash'])) {
-                // Set the current user variable
-                $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
-                $query ->execute([$username]);
-                $user = $query->fetch();
-                
-                $_SESSION["CurrentUser"] = $user['userid'];
-                header("Location: ../dist/profile/profile.php");
-                exit; // Make sure to exit after redirection
-            }
-            else {
-                // If password is incorrect, set error message
-                $errors[] = "Invalid username or password";
-            }
-        }
-        // If credentials are not valid, set error message
-        $errors[] = "Invalid username or password";
-    }
-    else {
-        $errors = $validate->errors();
+         $module = new userLogin;
+         $module-> login($username, $password);
+         $errors = $validate->errors();
     }
 }
 ?>

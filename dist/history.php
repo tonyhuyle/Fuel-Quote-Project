@@ -57,11 +57,12 @@
                     // $name1 = "d0ca07c1-b0e2-4b79-8554-4ab885314813";    
                         $query = "SELECT id, date, address, gallons, price, total FROM history where owner = ?;";
                         // $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+                        $stmt = $pdo->prepare($query);
                         $stmt->execute([$CurrentUser]);
                         $result = $stmt->fetchAll();
                     // echo $query;
                     // Printing results in HTML
-                    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+                    foreach ($result as $line) {
                         echo "\t<tr bgcolor=\"white\">\n";
                         foreach ($line as $col_value) {
                             echo "\t\t<td>$col_value</td>\n";

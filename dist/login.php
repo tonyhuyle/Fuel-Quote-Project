@@ -41,15 +41,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 }
 
 /* if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $validate = new registerValidation($_POST);
+     $validate = new loginValidation($_POST);
     $errors = $validate->is_valid();
+    $formLoginSuccessful = false;
     if(empty($validate->errors())) {
-         $module = new userRegister($_POST);
+         $module = new userLogin($_POST);
          $username = $_POST["username"];
          $password = $_POST["password"];
-
-         $module->setUsername($username);
-         $module->setUsername($password);
+        
+         $module->getUsername($username);
+         $module->getUsername($password);
     }
     // Establish database connection
     $dbconn = pg_connect("host=localhost dbname=mydatabase user=postgres password=postgres");

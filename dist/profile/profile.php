@@ -1,8 +1,7 @@
  <?php
-    session_start();
  	require( __DIR__ . '/../../PhpFiles/profileManagement.php');
 	require( __DIR__ . '/../../PhpFiles/profileValidation.php');
-	require(__DIR__ . '/../connection.php');
+    require( __DIR__ . '/../connection.php');
 	use PhpFiles\userProfile; 
 	use PhpFiles\profileValidation;
 	// hardcode session variable
@@ -84,7 +83,7 @@
 			<label class="font-semibold" for="zip">Zip Code</label><br>
 			<span id="zip"><?php echo $user->getZip()?></span><br><br>
 
-			<button class="rounded shadow-md block p-3" id='editProfileButton' onclick="toggleEdit()">Edit Profile</button>
+			<button class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300" id='editProfileButton' onclick="toggleEdit()">Edit Profile</button>
 		</div>
 
 		<div class="hidden text-sm p-2" id="editProfile">
@@ -236,7 +235,7 @@
                     <span class="error font-semibold text-red-700"></span><br>
                 </div>			
 
-				<input type="submit" value="submit" class="rounded shadow-md block p-3" id="submitProfileButton">
+				<input type="submit" value="submit" class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300" id="submitProfileButton">
 			</form>
 		</div>
 	</div>

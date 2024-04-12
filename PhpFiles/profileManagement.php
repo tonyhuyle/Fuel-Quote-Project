@@ -1,6 +1,5 @@
 <?php
 namespace PhpFiles;
-require(__DIR__ . '/../dist/connection.php');
 class userProfile {
     public $username;
     public $name;

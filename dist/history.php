@@ -42,45 +42,29 @@ include 'connection.php';
             </thead>
                 <?php
                 //History page.
-                $CurrentUser = $_SESSION["CurrentUser"];
-                $registeredUsers = $_SESSION["Users"];
-                if(isset($_SESSION["History"][$CurrentUser])) //If there is some value associated with key $currentUser in the history table
-                {
-                    $currentUserRecords = $_SESSION["History"][$CurrentUser];
-
-                    // echo sizeof($currentUserRecords);
-                    for($i = 0; $i < sizeof($currentUserRecords); $i++)
-                    {
-                        $id = $currentUserRecords[$i]["id"];
-                        $date = $currentUserRecords[$i]["date"];
-                        $address = $currentUserRecords[$i]["address1"];
-                        $gallons = $currentUserRecords[$i]["gallons"];
-                        $pricePerGallon = $currentUserRecords[$i]["suggestPrice"];
-                        $totalPrice = $currentUserRecords[$i]["totalPrice"];
-                        //Display all of these on webpage
-                        // echo "here";
+                    // Connecting, selecting database
+                    $dbconn = pg_connect("dbname=my_project")
+                        or die('Could not connect: ' . pg_last_error());
+                    // Performing SQL query
+                    $name1 = "d0ca07c1-b0e2-4b79-8554-4ab885314813";    
+                    $query = "SELECT id, date, address, gallons, price, total FROM history where owner = '%s';";
+                    $query = sprintf($query, $name1);
+                    $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+                    // echo $query;
+                    // Printing results in HTML
+                    while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
                         echo "\t<tr bgcolor=\"white\">\n";
-                        echo "\t\t<td>$id</td>\n";
-                        echo "\t\t<td>$date</td>\n";
-                        echo "\t\t<td>$address</td>\n";
-                        echo "\t\t<td>$gallons</td>\n";
-                        echo "\t\t<td>$pricePerGallon</td>\n";
-                        echo "\t\t<td>$totalPrice</td>\n";
+                        foreach ($line as $col_value) {
+                            echo "\t\t<td>$col_value</td>\n";
+                        }
                         echo "\t</tr>\n";
                     }
-    
 
-                }
-                else // There is NO history to show for this user. Do Nothing / show blanks
-                {
-                    // echo "$CurrentUser";
-                }
-                //END HISTORY INSTRUCTIONS
+                    pg_free_result($result);
 
-    //Management
-    
-                // Printing results in HTML
-                ?>
+                    pg_close($dbconn);
+                    ?>
+
         </table>
     </div>
 </body>

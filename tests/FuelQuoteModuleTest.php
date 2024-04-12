@@ -33,6 +33,7 @@ class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
         $this->setUp();
         $pdo2 = $this->pdo2;
         $errors = array();
+        $pdo2->beginTransaction();
         $example_post_data = array("userid"=>"fa8eff83-187f-48ee-be64-505f394cfe86",
                                   "gallons"=>"5",
                                   "address"=> "155 Vango Dr",
@@ -54,6 +55,7 @@ class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($count1 + 1, $count2, "ERROR: Insert Failed.");
         $stmt2 = $pdo2->prepare("DELETE FROM fuelquotehistory WHERE userid = ?");
         $stmt2->execute([$example_post_data["userid"]]);
+        $pdo2->commit();
         //Deletes this test users' fuel quotes.  
     }
 }

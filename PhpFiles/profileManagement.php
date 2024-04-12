@@ -10,10 +10,17 @@ class userProfile {
     public $state;
     public $zip;
     public $email;
+    protected $pdo;
+    protected function setUp(): void
+    {
+        require __DIR__ . '/../dist/connection.php';
+        $this->pdo = $pdo;
+    }
 
     public function __construct($CurrentUser) {
         // Get the user's profile information from the database and store it in the object
-        global $pdo;
+        $this->setUp();
+        $pdo = $this->pdo;
         $stmt = $pdo->prepare(" SELECT users.username, users.email, profiles.fullname, profiles.address1, profiles.address2, profiles.city, profiles.userstate, profiles.zipcode
                                 FROM users
                                 JOIN profiles ON users.userid = profiles.userid
@@ -67,7 +74,7 @@ class userProfile {
 
     public function updateProfile($currentUser, $name, $email, $address1, $address2, $city, $state, $zip){
         // Update the user's profile information in the database
-        global $pdo;
+        $pdo = $this->pdo;
         try{
             $pdo->beginTransaction();
             

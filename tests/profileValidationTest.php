@@ -185,6 +185,19 @@ class profileValidationTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['address2'] ?? "General Error Message");
     }
 
+    public function test_if_missing_validate_address2(){
+        $example_post_data = array("name"=>"John Doe",
+                                   "address1"=>"123 main street",
+                                   "address2"=>"",
+                                   "city"=>"New York City",
+                                   "state"=>"NY",
+                                   "zip"=>"10001",
+                                   "email"=>"johndoe@example.com");
+        $test_Validation = new Validation($example_post_data);
+        $test_Validation->validateAddress2();
+        $this->assertNotEmpty($test_Validation->errors(), $test_Validation->errors()['address2'] ?? "General Error Message");
+    }
+
     public function test_if_valid_validate_city(){
         $example_post_data = array("name"=>"John Doe",
                                    "address1"=>"123 main street",

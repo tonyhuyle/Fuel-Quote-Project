@@ -1,13 +1,19 @@
 <?php
 require( __DIR__ . '/../PhpFiles/profileManagement.php');
-require( __DIR__ . '/../dist/connection.php');
 use PhpFiles\userProfile as userProfile;
 
 class ProfileManagementTest extends \PHPUnit\Framework\TestCase
 {
+    protected $pdo;
+    protected function setUp(): void
+    {
+        require __DIR__ . '/../dist/connection.php';
+        $this->pdo = $pdo;
+    }
     public function testProfileManagement()
     {
-        global $pdo;
+        $this->setUp();
+        $pdo = $this->pdo;
         //sample data to be used for testing, some is obviosly invalid
         $sampleData = array(
             'username' => 'testUsername',
@@ -49,9 +55,9 @@ class ProfileManagementTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($sampleData['email'], $testUser->getEmail());
 
         //delete the test user and profile from the db
-        $stmt3 = $pdo->prepare("DELETE FROM users WHERE userid = ? LIMIT 1");
+        $stmt3 = $pdo->prepare("DELETE FROM users WHERE userid = ?");
         $stmt3->execute([$testUserID]);
-        $stmt4 = $pdo->prepare("DELETE FROM profiles WHERE userid = ? LIMIT 1");
+        $stmt4 = $pdo->prepare("DELETE FROM profiles WHERE userid = ?");
         $stmt4->execute([$testUserID]);
     }
 }

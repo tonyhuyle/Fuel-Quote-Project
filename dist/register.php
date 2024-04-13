@@ -13,11 +13,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $username = $_POST["username"];
          $password = $_POST["password"];
 
-         $module = new userRegister;
-         $module-> register($username, $password);
-         $errors = $validate->errors();
-}  
+         $passwordhash = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
+
+        // Prepare SQL statement to insert user data
+        $query = $pdo->prepare("INSERT INTO users (username, passwordhash) VALUES (?, ?)");
+        $result = $query->execute([$username, $passwordhash]);
+        if($result) {
+            // Set the current user variable
+            $query = $pdo ->prepare("SELECT userid FROM users WHERE users.username = ? LIMIT 1");
+            $query ->execute([$username]);
+            $user = $query->fetch();
+            $_SESSION["CurrentUser"] = $user['userid'];
+            header("Location: ../dist/profile/profile.php");
+        } 
+        else {
+            $errors[] = "Registration failed. Please try again.";
+        }
 }
+}  
 ?>
 
 <!DOCTYPE html>

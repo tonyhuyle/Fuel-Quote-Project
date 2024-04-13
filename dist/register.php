@@ -13,12 +13,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $username = $_POST["username"];
          $password = $_POST["password"];
 
-         $passwordhash = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
-
          $module = new userRegister;
          $module-> register($username, $password);
          $errors = $validate->errors();
-        
 }  
 }
 ?>

@@ -28,11 +28,13 @@ class userRegister {
         $this->password = $password;
     }
 
-    public function register($username, $passwordhash) {
+    public function register($username, $password) {
         $this->setUp();
-        $pdo = $this->pdo;
+            $pdo = $this->pdo;
+            
+        $passwordhash = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash the password
 
-        
+        // Prepare SQL statement to insert user data
         $query = $pdo->prepare("INSERT INTO users (username, passwordhash) VALUES (?, ?)");
         $result = $query->execute([$username, $passwordhash]);
         if($result) {
@@ -43,8 +45,10 @@ class userRegister {
             $_SESSION["CurrentUser"] = $user['userid'];
             header("Location: ../dist/profile/profile.php");
         } 
-        $errors[] = "Invalid username or password";
-    }
-} 
+        else {
+            $errors[] = "Registration failed. Please try again.";
+        }
+}
+}
 
 ?>

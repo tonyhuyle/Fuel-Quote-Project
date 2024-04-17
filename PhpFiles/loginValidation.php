@@ -5,6 +5,12 @@ class loginValidation
     private $login;
     private $errors = array();
     private $fields = ['username','password'];
+    protected $pdo;
+    protected function setUp(): void
+    {
+        require __DIR__ . '/../dist/connection.php';
+        $this->pdo = $pdo;
+    }
 
     public function errors()
     {
@@ -59,15 +65,19 @@ class loginValidation
         if (empty($value)) {
             $this->appendErrors('password', "Password cannot be empty");
         } 
-
-        // Retrieve the password from $this->login and compare it with the stored hash
-      /*  $enteredPassword = $this->login['password'] ?? "";
-        $storedHashedPassword = ""; // Fetch the hashed password from your database based on the provided username/email
-
-        if (!$storedHashedPassword) {
-            $this->appendErrors('password', "Invalid username or password."); // Inform the user that either the username or password is invalid
-            return;
-        } */
+        else {
+            // Retrieve user data from the database
+            $this->setUp();
+            $pdo = $this->pdo;
+            $query = $pdo->prepare("SELECT * FROM users WHERE username = ? LIMIT 1");
+            $query->execute([$this->login['username']]);
+            $result = $query->fetch();
+    
+            // Check if user exists and verify password
+            if (!$result || !password_verify($value, $result['passwordhash'])) {
+                $this->appendErrors('password', "Invalid username or password.");
+            }
+        }
     }
     public function appendErrors($field, $message) {
         $this->errors[$field] = $message;

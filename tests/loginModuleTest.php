@@ -16,7 +16,7 @@ class loginModuleTest extends \PHPUnit\Framework\TestCase {
 
     protected function setUp(): void
     {
-        $this->loginInstance = new userLogin(); // Replace YourClass with the actual class name
+        $this->loginInstance = new userLogin(); // Replace class with the actual class name
     }
 
     public function testValidLogin()
@@ -25,7 +25,7 @@ class loginModuleTest extends \PHPUnit\Framework\TestCase {
         $username = "valid_username";
         $password = "valid_password";
 
-        // Assuming your setUp() method already initializes the database connection
+        // Assuming method already initializes the database connection
         $this->loginInstance->login($username, $password);
 
         // Assert that the session variable was set and redirection header was sent

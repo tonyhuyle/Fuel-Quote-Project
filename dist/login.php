@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <?php
                     if($_SERVER["REQUEST_METHOD"] == "POST" and !empty($errors))
                     {
-                        $message = $errors[0];
+                        $message = $errors["password"];
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
 

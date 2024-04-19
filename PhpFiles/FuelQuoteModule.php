@@ -9,7 +9,7 @@
         private $address = "123HillLane";
         private $address2 = "";
         private $date = "03/28/2024";
-        private $suggestPricePerGallon;
+        private $suggestPricePerGallon = 1.50;
         private $totalPrice;
         private $state;
         private $city;
@@ -31,11 +31,12 @@
             $this->setDate($this->data["date"]);
             $this->setState($this->data["state"]);
             $this->setAddress2($this->data["address2"]);
-            $this->setZipcode($this->data["zipcode"]);
+            $this->setZipcode($this->data["zip"]);
             $this->setCity($this->data["city"]);
-            $this->pricingMod = new PricingModule($post_data);
-            $this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
-            $this->totalPrice = $this->pricingMod->getTotalPrice();
+            $this->setTotalPrice($this->suggestPricePerGallon * $this->gallons);
+            #$this->pricingMod = new PricingModule($post_data);
+            #$this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
+           #$this->totalPrice = $this->pricingMod->getTotalPrice();
         }
         public function getData()
         {
@@ -115,9 +116,11 @@
             try{
             $pdo->beginTransaction();
             $psCompliantDate = (new \DateTime($this->getDate()))->format('Y-m-d');
-            $stmt = $pdo->prepare('INSERT INTO fuelquotehistory (userid, gallonsrequested, deliveryaddress, requestdate, deliverydate, suggestedprice, totalamountdue) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            $stmt = $pdo->prepare('INSERT INTO fuelquotehistory (userid, gallonsrequested, deliveryaddress, requestdate, deliverydate, suggestedprice, totalamountdue) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING quoteid');
             $params = array($CurrentUser, $this->getGallons(), $this->getAddress(), date('Y/m/d'), $psCompliantDate, $this->getSuggestedPrice(), $this->getTotalPrice());
             $stmt->execute($params);
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $quoteId = $result["quoteid"];
             $pdo->commit();
             }
             catch(\PDOException $e)

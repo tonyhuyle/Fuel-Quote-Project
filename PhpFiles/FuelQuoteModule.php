@@ -1,14 +1,21 @@
 <?php
     namespace PhpFiles;
+    require(__DIR__ .'/FuelPricingModule.php');
+    use PhpFiles\FuelPricingModule as PricingModule;
     class FuelQuoteModule
     {
         private $data;
         private $gallons = 0;
         private $address = "123HillLane";
+        private $address2 = "";
         private $date = "03/28/2024";
-        private $suggestPrice = 3.02;
-        private $totalPrice = 0;
+        private $suggestPricePerGallon;
+        private $totalPrice;
+        private $state;
+        private $city;
+        private $zipcode;
         private $errors = array();
+        private $pricingMod;
         protected $pdo;
         protected function setUp(): void
         {
@@ -22,8 +29,13 @@
             $this->setGallons($this->data["gallons"]);
             $this->setAddress($this->data["address"]);
             $this->setDate($this->data["date"]);
-            $this->setSuggestPrice(3.02);
-            $this->setTotalPrice($this->getGallons() * $this->getSuggestedPrice());
+            $this->setState($this->data["state"]);
+            $this->setAddress2($this->data["address2"]);
+            $this->setZipcode($this->data["zipcode"]);
+            $this->setCity($this->data["city"]);
+            $this->pricingMod = new PricingModule($post_data);
+            $this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
+            $this->totalPrice = $this->pricingMod->getTotalPrice();
         }
         public function getData()
         {
@@ -39,10 +51,26 @@
             $this->date = $dateParam;
         }
         public function setSuggestPrice($price){
-            $this->suggestPrice = $price;
+            $this->suggestPricePerGallon = $price;
         }
         public function setTotalPrice($price){
             $this->totalPrice = $price;
+        }
+        public function setState($_state)
+        {
+            $this->state = $_state;
+        }
+        public function setZipcode($_zip)
+        {
+            $this->zipcode= $_zip;
+        }
+        public function setCity($_city)
+        {
+            $this->city= $_city;
+        }
+        public function setAddress2($_address2)
+        {
+            $this->address2= $_address2;
         }
         public function getGallons()
         {
@@ -52,13 +80,29 @@
         {
             return $this->address;
         }
+        public function getAddress2()
+        {
+            return $this->address2;
+        }
+        public function getCity()
+        {
+            return $this->city;
+        }
+        public function getState()
+        {
+            return $this->state;
+        }
+        public function getZipcode()
+        {
+            return $this->zipcode;
+        }
         public function getDate()
         {
             return $this->date;
         }
         public function getSuggestedPrice()
         {
-            return $this->suggestPrice;
+            return $this->suggestPricePerGallon;
         }
         public function getTotalPrice()
         {
@@ -81,44 +125,11 @@
                 $pdo->rollBack();
                 throw $e;
             }
-            /*
-            $params = array($this->getDate(), $this->getAddress(), $this->getGallons(), $this->getSuggestedPrice(), $this->getTotalPrice(), $CurrentUser);
-            $db_connection = pg_connect("host=localhost dbname=myDB user=postgres password=root"); //change myDB to postgres
-            if(!$db_connection) // If connection failed
-            {
-                $this->errors["Connection Exectution Error:"] = "Failed to Connect to DB: ";
-            }
-            else 
-            {
-                $result = pg_query_params($db_connection, 'INSERT INTO public."History" ("DeliveryDate", "StreetAddress", "Gallons_Request", "Price_Per_Gallon", "Total_Price", "Username") 
-                VALUES ($1, $2, $3, $4, $5, $6)', $params); //change to postgres.
-                if(!$result) // If Insert query failed
-                {
-                    $this->errors["Query Exectution Error:"] = "Failed to Execute Query: ";
-                }
-            }
-            /*
-            $test = 'SELECT COUNT(*) FROM public."History"';
-            $testResult = pg_query($db_connection, $test);
-            if(!$testResult)
-            {
-                echo "Failed to count Rows";
-                return;
-            }
-            
-            $row = pg_fetch_row($testResult);
-            $row_count = $row[0];
-            pg_close($db_connection);
-            */
         }
         public function getErrors()
         {
             return $this->errors;
         }
-
-    }
-    class pricingModule
-    {
 
     }
 ?>

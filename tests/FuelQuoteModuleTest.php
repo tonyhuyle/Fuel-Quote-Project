@@ -2,6 +2,18 @@
 use PhpFiles\FuelQuoteModule as Module;
 class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
 {
+    protected $pdo2;
+    protected function setUp(): void
+    {
+        $appName = $_SERVER['HTTP_HOST'] ?? 'defaulthost';
+        $appName .= $_SERVER['REQUEST_URI'] ?? 'defaulturi';
+        $dsn = 'pgsql:host=localhost;dbname=postgres;options=\'--application_name=' . $appName . '\'';
+        $user = 'postgres';
+        $password = 'root';
+        // Create a PDO instance
+        $pdo2 = new PDO($dsn, $user, $password);
+        $this->pdo2 = $pdo2;
+    }
     public function testModule()
     {
         $example_post_data = array("gallons"=>"5",
@@ -18,20 +30,30 @@ class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
     }
     public function testSQLInsertion()
     {
+        $this->setUp();
+        $pdo2 = $this->pdo2;
         $errors = array();
-        $example_post_data = array("gallons"=>"5",
+        $example_post_data = array("userid"=>"fa8eff83-187f-48ee-be64-505f394cfe86",
+                                  "gallons"=>"5",
                                   "address"=> "155 Vango Dr",
                                   "date"=> "2024-07-20");
         $test_Module = new Module($example_post_data);
-        $test_Module->InsertFuelQuote("Veronica Jones");
-        $this->assertEmpty($test_Module->getErrors()); //This is all valid data so it should be
-        $db_connection = $db_connection = pg_connect("host=localhost dbname=myDB user=postgres password=root");
-        $cleanUpQuery = pg_query_params($db_connection, 'DELETE FROM public."History" WHERE "Username"=$1', array("Veronica Jones"));
-        $errors = array();
-        if(!$cleanUpQuery) //If Delete / Cleanup Query failed.
-        {
-            $errors["Query Clean up Exectution Error: "] = "Failed to Execute Query: ";
-        }
-        $this->assertEmpty($errors);
+        //Count number of rows before and store into $count1
+        $sql = "SELECT COUNT(*) as count FROM fuelquotehistory WHERE userid=?";
+        $stmt1 = $pdo2->prepare($sql);
+        $stmt1->execute([$example_post_data["userid"]]);
+        $result = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $count1 = $result["count"];
+        //Run the insert command.
+        $test_Module->InsertFuelQuote($example_post_data["userid"]);
+        //Recount number of rows after the insert, should be 1 more than before.
+        $stmt1->execute([$example_post_data["userid"]]);
+        $result2 = $stmt1->fetch(PDO::FETCH_ASSOC);
+        $count2 = $result2["count"];
+        //assert that the after count is 1 more than before count.
+        $this->assertEquals($count1 + 1, $count2, "ERROR: Insert Failed.");
+        $stmt2 = $pdo2->prepare("DELETE FROM fuelquotehistory WHERE userid = ?");
+        $stmt2->execute([$example_post_data["userid"]]);
+        //Deletes this test users' fuel quotes.  
     }
 }

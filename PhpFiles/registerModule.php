@@ -5,7 +5,7 @@ class userRegister {
     public $username = "JohnDoe123";
     public $password = "Password1!";
     public $confirmPassword = "Password1!";
-    
+
     public function getUsername(){
         return $this->username;
     }
@@ -22,5 +22,4 @@ class userRegister {
         $this->password = $password;
     }
 }
-
 ?>

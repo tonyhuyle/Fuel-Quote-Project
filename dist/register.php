@@ -5,35 +5,6 @@ require(__DIR__ . '/connection.php');
 use PhpFiles\userRegister; 
 use PhpFiles\registerValidation;
 $errors = array();
-/*
-if($_SERVER["REQUEST_METHOD"] == "POST")
-{
-    $validate = new registerValidation($_POST);
-    $errors = $validate->is_valid();
-    if(empty($validate->errors())) {
-         $module = new userRegister($_POST);
-         $username = $_POST["username"];
-         $password = $_POST["password"];
-
-         $module->setUsername($username);
-         $module->setUsername($password);
-
-        $_SESSION["CurrentUser"] = $username;
-        $currentUser = $_SESSION["CurrentUser"];
-        $_SESSION["Users"][$currentUser] = array("username" => $username, "password" => $password, "name" =>  "", "address1" =>  "", "address2" =>  "", "city" =>  "", "state" =>  "", "zip" => "", "email" => "");
-        // Set the current user variable
-        //$_SESSION["CurrentUser"] = $username; // Assuming $username is the user's identifier
-
-        // Redirect to the profile page after successful registration
-        header("Location: ../dist/profile/profile.php");
-        exit; // Make sure to exit after redirection
-    }
-    else 
-    {
-        $errors = $validate->errors();
-    }
-}
-*/
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $validate = new registerValidation($_POST);
@@ -54,14 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $query->fetch();
             $_SESSION["CurrentUser"] = $user['userid'];
             header("Location: ../dist/profile/profile.php");
-        } else {
+        } 
+        else {
             $errors[] = "Registration failed. Please try again.";
         }
-    }
-    else 
-    {
-        $errors = $validate->errors();
-    }
+}
 }  
 ?>
 

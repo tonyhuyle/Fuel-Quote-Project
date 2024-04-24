@@ -37,29 +37,9 @@
         if(empty($validate->errors())) //No errors popped up so go ahead and assign form data to Module
         {
             $module = new FuelQuoteModule($_POST);
-            /* OLD HARDCODED CODE.
-            $id = rand(10000000, 99999999);
-            
-            $gallons = $module->getGallons();
-            $address = $module->getAddress();
-            $date = $module->getDate();
-            $suggestPrice = $module->getSuggestedPrice();
-            $totalPrice = $module->getTotalPrice();
-            $currentUser = $_SESSION["CurrentUser"];
-            if(!array_key_exists($currentUser, $_SESSION["History"])) //There is no history for this user
-            {
-                $_SESSION["History"][$currentUser] = array(array("id" =>$id, "date"=> $date, "address1" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
-            }
-            else //There is history
-            {
-                //$currentUserRecords = $_SESSION["History"][$currentUser]; THIS IS FRUSTRATINGLY WRONG
-                $_SESSION["History"][$currentUser][] = (array("id" =>$id, "date"=> $date, "address1" => $address, "gallons"=> $gallons, "suggestPrice"=> $suggestPrice, "totalPrice"=>$totalPrice));
-
-
-            }
-            */
             $module-> InsertFuelQuote($currentUser);
             $FormSubmitSuccesful = TRUE;
+            $quoteId = $module->getQuoteId();
         }
         else
         {
@@ -99,7 +79,7 @@
         </div>
             <div class="m-2">
                 <form id="quoteForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
-                    <input type="hidden" id="hasHistory" name="hasHistory" value="<?php echo $userHasHistory?>">
+                    <input type="hidden" id="hasHistory" name="hasHistory" value="<?php echo $hasHistory?>">
 
                     <h2 class="font-semibold">Gallons of Oil to request: A positive integer is expected</h2>
                     <input required class = "h-10 box-border border-2" type="number" required name = "gallons" id="gallons" min="0" value="0" step="0.01" style="width:750px;"><br>
@@ -157,7 +137,7 @@
                     <?php
                     if($_SERVER["REQUEST_METHOD"] == "POST" && empty($errors) && $FormSubmitSuccesful == TRUE)
                     {
-                        echo "<Br><p><strong>Form submitted successfully! All input fields sucessfully validated.</strong></p>";
+                        echo "<Br><p><strong>Form submitted successfully! Fuel Quote ID: $quoteId </strong></p>";
                     }
                     else if($_SERVER["REQUEST_METHOD"] == "POST" && !empty($errors))
                     {

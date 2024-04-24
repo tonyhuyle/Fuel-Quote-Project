@@ -15,6 +15,7 @@
         private $city;
         private $zipcode;
         private $errors = array();
+        private $quoteId;
         private $pricingMod;
         protected $pdo;
         protected function setUp(): void
@@ -121,6 +122,7 @@
             $stmt->execute($params);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             $quoteId = $result["quoteid"];
+            $this->quoteId = $quoteId; 
             $pdo->commit();
             }
             catch(\PDOException $e)
@@ -128,6 +130,10 @@
                 $pdo->rollBack();
                 throw $e;
             }
+        }
+        public function getQuoteId()
+        {
+            return $this->quoteId;
         }
         public function getErrors()
         {

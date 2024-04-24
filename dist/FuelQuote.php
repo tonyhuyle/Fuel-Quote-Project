@@ -36,7 +36,7 @@
         $FormSubmitSuccesful = FALSE;
         if(empty($validate->errors())) //No errors popped up so go ahead and assign form data to Module
         {
-            $module = new FuelQuoteModule($_POST);
+            $module = new FuelQuoteModule($_POST, $userHasHistory);
             /* OLD HARDCODED CODE.
             $id = rand(10000000, 99999999);
             

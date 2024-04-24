@@ -11,14 +11,14 @@ class FuelPricingModule
     private float $gallonsRequestedFactor;
     private float $suggestedPricePerGallon;
 
-    public function __construct($_data)
+    public function __construct($_data, $hasHistory)
     {
         $this->gallons = $_data["gallons"];
         if($_data["state"] != "TX")
             $this->locationFactor = 0.04;
         else
             $this->locationFactor = 0.02;
-        if($_data["hasHistory"] == true)
+        if($hasHistory == true)
             $this->rateHistoryFactor = 0.01;
         else
             $this->rateHistoryFactor = 0.0;
@@ -28,14 +28,14 @@ class FuelPricingModule
             $this->gallonsRequestedFactor = 0.03;
         $this->calculatePricing();
     }
-    public function update($_data)
+    public function update($_data, $hasHistory)
     {
         $this->gallons = $_data["gallons"];
         if($_data["state"] != "TX")
             $this->locationFactor = 0.04;
         else
             $this->locationFactor = 0.02;
-        if($_data["hasHistory"] == true)
+        if($hasHistory == true)
             $this->rateHistoryFactor = 0.0;
         else
             $this->rateHistoryFactor = 0.01;

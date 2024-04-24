@@ -9,7 +9,7 @@
         private $address = "123HillLane";
         private $address2 = "";
         private $date = "03/28/2024";
-        private $suggestPricePerGallon = 1.50;
+        private $suggestPricePerGallon;
         private $totalPrice;
         private $state;
         private $city;
@@ -23,7 +23,7 @@
             $this->pdo = $pdo;
         }
 
-        public function __construct($post_data)
+        public function __construct($post_data, $hasHistory)
         {
             $this->data = $post_data;
             $this->setGallons($this->data["gallons"]);
@@ -34,9 +34,9 @@
             $this->setZipcode($this->data["zip"]);
             $this->setCity($this->data["city"]);
             $this->setTotalPrice($this->suggestPricePerGallon * $this->gallons);
-            #$this->pricingMod = new PricingModule($post_data);
-            #$this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
-           #$this->totalPrice = $this->pricingMod->getTotalPrice();
+            $this->pricingMod = new PricingModule($post_data, $hasHistory);
+            $this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
+            $this->totalPrice = $this->pricingMod->getTotalPrice();
         }
         public function getData()
         {
@@ -116,8 +116,12 @@
             try{
             $pdo->beginTransaction();
             $psCompliantDate = (new \DateTime($this->getDate()))->format('Y-m-d');
+            if($this->getAddress2() != "")
+                $fullAddress = $this->getAddress() . ',' . $this->getAddress2() . ',' . $this->getCity() . ',' . $this->getState() . ',' . $this->getZipcode();
+            else
+                $fullAddress = $this->getAddress() . ',' . $this->getCity() . ',' . $this->getState() . ',' . $this->getZipcode();
             $stmt = $pdo->prepare('INSERT INTO fuelquotehistory (userid, gallonsrequested, deliveryaddress, requestdate, deliverydate, suggestedprice, totalamountdue) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING quoteid');
-            $params = array($CurrentUser, $this->getGallons(), $this->getAddress(), date('Y/m/d'), $psCompliantDate, $this->getSuggestedPrice(), $this->getTotalPrice());
+            $params = array($CurrentUser, $this->getGallons(), $fullAddress, date('Y/m/d'), $psCompliantDate, $this->getSuggestedPrice(), $this->getTotalPrice());
             $stmt->execute($params);
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             $quoteId = $result["quoteid"];

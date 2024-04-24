@@ -150,9 +150,9 @@
                         echo "<Br><p style=\"color:red\"><strong>Error with input! Message: $message </strong></p>";
                     }?>
                     <h2 class="mt-10 font-semibold">Suggested Price Per Gallon:</h2>
-                    <input class = "h-10 box-border border-2" placeholder="Price is dependent on State and number of gallons requested" type="number" step="0.01" min="0" style="width:750px" id="suggestedPrice" name="suggestedPrice" readonly>
+                    <input class = "h-10 box-border border-2" placeholder="Price is dependent on State and number of gallons requested" type="number" step="0.001" min="0" style="width:750px" id="suggestedPrice" name="suggestedPrice" readonly>
                     <h2 class="mt-10 font-semibold">Total Price:</h2>
-                    <input class = "h-10 box-border border-2" placeholder="Price is dependent on State and number of gallons requested" type="number" step="0.01" min="0" style="width:750px" id="totalPrice" name="totalPrice" readonly>
+                    <input class = "h-10 box-border border-2" placeholder="Price is dependent on State and number of gallons requested" type="number" step="0.001" min="0" style="width:750px" id="totalPrice" name="totalPrice" readonly>
                     <button class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300" type="button" id="getQuote">Get Quote</button>
                     <input type = "submit" value="submit" name="submit" class="mt-4 bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300" id="submitQuote">
                     <?php

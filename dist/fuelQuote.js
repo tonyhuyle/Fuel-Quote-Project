@@ -1,7 +1,7 @@
 function calculatePrice(gallons, state, hasHistory) {
     const currentPrice = 1.50;
     const locationFactor = state === 'TX' ? 0.02 : 0.04;
-    const rateHistoryFactor = hasHistory === 'true' ? 0.01 : 0;
+    const rateHistoryFactor = !hasHistory ? 0 : 0.01;
     const gallonsRequestedFactor = gallons > 1000 ? 0.02 : 0.03;
     const companyProfitFactor = 0.10;
 
@@ -19,8 +19,8 @@ function getQuote() {
 
     const { suggestedPrice, totalAmountDue } = calculatePrice(gallons, state, hasHistory);
 
-    document.getElementById('suggestedPrice').value = suggestedPrice.toFixed(2);
-    document.getElementById('totalPrice').value = totalAmountDue.toFixed(2);
+    document.getElementById('suggestedPrice').value = suggestedPrice.toFixed(3);
+    document.getElementById('totalPrice').value = totalAmountDue.toFixed(3);
 
     document.getElementById('submitQuote').disabled = false;
 }

@@ -94,6 +94,7 @@
 			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.php" class="button-left">My Profile</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="history.php">View Quotes</a></li>
+            <li class="font-semibold text-gray-800 mb-4" syle="float:right"><a href="../logout.php">Logout</a></li>
 			</ul>
 		</div>
         <div class ="p-2 text-2xl text-center"> Fuel Quote Form

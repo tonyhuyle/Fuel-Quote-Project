@@ -20,13 +20,13 @@
         $currentUser = $_SESSION["CurrentUser"];
 		$user = new userProfile($currentUser);
         //query the db to see if the user has a quote history
-        $userHasHistory = FALSE;
+        $userHasHistory = false;
         $query = $pdo->prepare("SELECT * FROM fuelquotehistory WHERE userid = ?");
         $query->execute([$currentUser]);
         $result = $query->fetch();
         if($result)
         {
-            $userHasHistory = TRUE;
+            $userHasHistory = true;
         }
     }
     if($_SERVER["REQUEST_METHOD"] == "POST")

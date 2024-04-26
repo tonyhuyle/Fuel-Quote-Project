@@ -1,7 +1,7 @@
 function calculatePrice(gallons, state, hasHistory) {
     const currentPrice = 1.50;
     const locationFactor = state === 'TX' ? 0.02 : 0.04;
-    const rateHistoryFactor = hasHistory === 'true' ? 0.01 : 0;
+    const rateHistoryFactor = !hasHistory ? 0 : 0.01;
     const gallonsRequestedFactor = gallons > 1000 ? 0.02 : 0.03;
     const companyProfitFactor = 0.10;
 
@@ -23,6 +23,13 @@ function getQuote() {
     document.getElementById('totalPrice').value = totalAmountDue.toFixed(2);
 
     document.getElementById('submitQuote').disabled = false;
+}
+
+function resetPrices() {
+    document.getElementById('suggestedPrice').value = '';
+    document.getElementById('totalPrice').value = '';
+
+    document.getElementById('submitQuote').disabled = true;
 }
 
 // Enable/Disable buttons based on form input
@@ -47,6 +54,14 @@ window.onload = function() {
         getQuoteButton.disabled = !getQuoteEnabled;
         submitQuoteButton.disabled = !submitQuoteEnabled;
     }
+
+    let formElements = document.querySelectorAll('form input, form select, form textarea');
+
+    formElements.forEach(element => {
+        element.addEventListener('change', () => {
+            resetPrices();
+        });
+    });
     
     form.addEventListener('input', checkForm);
     checkForm();

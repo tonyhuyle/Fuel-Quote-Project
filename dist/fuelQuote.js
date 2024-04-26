@@ -19,8 +19,8 @@ function getQuote() {
 
     const { suggestedPrice, totalAmountDue } = calculatePrice(gallons, state, hasHistory);
 
-    document.getElementById('suggestedPrice').value = suggestedPrice.toFixed(2);
-    document.getElementById('totalPrice').value = totalAmountDue.toFixed(2);
+    document.getElementById('suggestedPrice').value = suggestedPrice.toFixed(3);
+    document.getElementById('totalPrice').value = totalAmountDue.toFixed(3);
 
     document.getElementById('submitQuote').disabled = false;
 }

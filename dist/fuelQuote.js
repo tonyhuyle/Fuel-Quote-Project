@@ -25,6 +25,13 @@ function getQuote() {
     document.getElementById('submitQuote').disabled = false;
 }
 
+function resetPrices() {
+    document.getElementById('suggestedPrice').value = '';
+    document.getElementById('totalPrice').value = '';
+
+    document.getElementById('submitQuote').disabled = true;
+}
+
 // Enable/Disable buttons based on form input
 window.onload = function() {
     const form = document.getElementById('quoteForm');
@@ -47,6 +54,14 @@ window.onload = function() {
         getQuoteButton.disabled = !getQuoteEnabled;
         submitQuoteButton.disabled = !submitQuoteEnabled;
     }
+
+    let formElements = document.querySelectorAll('form input, form select, form textarea');
+
+    formElements.forEach(element => {
+        element.addEventListener('change', () => {
+            resetPrices();
+        });
+    });
     
     form.addEventListener('input', checkForm);
     checkForm();

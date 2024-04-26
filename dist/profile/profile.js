@@ -35,6 +35,9 @@ const validationOptions = [
                 case 'name':
                     // check if it's a number
                     return !/\d/.test(input.value);
+				case 'city':
+					// check if it's a number
+					return !/\d/.test(input.value);
 				case 'zip':
 					// check if it's a number
 					return /\d/.test(input.value);

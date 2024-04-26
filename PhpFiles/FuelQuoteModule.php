@@ -34,7 +34,7 @@
             $this->setAddress2($this->data["address2"]);
             $this->setZipcode($this->data["zip"]);
             $this->setCity($this->data["city"]);
-            $this->setTotalPrice($this->suggestPricePerGallon * $this->gallons);
+            //$this->setTotalPrice($this->suggestPricePerGallon * $this->gallons);
             $this->pricingMod = new PricingModule($post_data, $hasHistory);
             $this->suggestPricePerGallon = $this->pricingMod->getSuggestedPricePerGallon();
             $this->totalPrice = $this->pricingMod->getTotalPrice();

@@ -28,24 +28,6 @@ class FuelPricingModule
             $this->gallonsRequestedFactor = 0.03;
         $this->calculatePricing();
     }
-    public function update($_data, $hasHistory)
-    {
-        $this->gallons = $_data["gallons"];
-        if($_data["state"] != "TX")
-            $this->locationFactor = 0.04;
-        else
-            $this->locationFactor = 0.02;
-        if($hasHistory == true)
-            $this->rateHistoryFactor = 0.0;
-        else
-            $this->rateHistoryFactor = 0.01;
-        if($this->gallons > 1000)
-            $this->gallonsRequestedFactor = 0.02;
-        else
-            $this->gallonsRequestedFactor = 0.03;
-        $this->calculatePricing();
-        
-    }
     public function calculatePricing()
     {
         $this->suggestedPricePerGallon = $this->basePricePerGallon + ($this->basePricePerGallon * ($this->locationFactor - $this->rateHistoryFactor + $this->gallonsRequestedFactor + $this->companyProfitFactor));

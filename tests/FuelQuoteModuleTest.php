@@ -16,14 +16,21 @@ class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
     }
     public function testModule()
     {
-        $example_post_data = array("gallons"=>"5",
+        $example_post_data = array("userid"=>"d278547f-ddbb-4c2e-b76e-5c06a975296e",
+                                  "gallons"=>"500",
                                   "address"=> "155 Vango Dr",
-                                  "date"=> "2024-07-20");
-        $test_Module = new Module($example_post_data);
-        $this->assertEquals("5", $test_Module->getGallons());
+                                  "address2"=> "",
+                                  "date"=> "2024-07-20",
+                                  "state"=> "TX",
+                                  "zip"=>"55123",
+                                  "city"=>"Austin");
+        $test_Module = new Module($example_post_data, true);
+        $this->assertEquals("500", $test_Module->getGallons());
         $this->assertEquals("155 Vango Dr", $test_Module->getAddress());
+        $this->assertEquals("", $test_Module->getAddress2());
         $this->assertEquals("2024-07-20", $test_Module->getDate());
-        $this->assertEquals(3.02, $test_Module->getSuggestedPrice()); //3.02 is default price
+        $suggestPrice = 1.50 + (1.50 * (0.02 - 0.01 + 0.03 + 0.1));
+        $this->assertEquals($suggestPrice, $test_Module->getSuggestedPrice()); //3.02 is default price
         $this->assertEquals($test_Module->getSuggestedPrice() * $test_Module->getGallons(), $test_Module->getTotalPrice());
         
         
@@ -33,11 +40,15 @@ class FuelQuoteModuleTest extends \PHPUnit\Framework\TestCase
         $this->setUp();
         $pdo2 = $this->pdo2;
         $errors = array();
-        $example_post_data = array("userid"=>"fa8eff83-187f-48ee-be64-505f394cfe86",
-                                  "gallons"=>"5",
+        $example_post_data = array("userid"=>"d278547f-ddbb-4c2e-b76e-5c06a975296e",
+                                  "gallons"=>"500",
                                   "address"=> "155 Vango Dr",
-                                  "date"=> "2024-07-20");
-        $test_Module = new Module($example_post_data);
+                                  "address2"=> "",
+                                  "date"=> "2024-07-20",
+                                  "state"=> "TX",
+                                  "zip"=>"55123",
+                                  "city"=>"Austin");
+        $test_Module = new Module($example_post_data, true);
         //Count number of rows before and store into $count1
         $sql = "SELECT COUNT(*) as count FROM fuelquotehistory WHERE userid=?";
         $stmt1 = $pdo2->prepare($sql);

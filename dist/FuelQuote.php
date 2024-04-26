@@ -11,9 +11,7 @@
     $states = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
     if(!isset($_SESSION["CurrentUser"])){
-        #header("Location: /login.php");
-        #$_SEESION["CurrentUser"] = "727ddc29-248e-4c17-9382-a3729dd5b73a";
-        $currentUser = $_SESSION["CurrentUser"];
+        header("Location: login.php");
     }
     else
     {
@@ -94,7 +92,7 @@
 			<li class="font-semibold text-gray-800 mb-4"><a href="profile/profile.php" class="button-left">My Profile</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a class="active">New Quote</a></li>
 			<li class="font-semibold text-gray-800 mb-4"><a href="history.php">View Quotes</a></li>
-            <li class="font-semibold text-gray-800 mb-4" syle="float:right"><a href="../logout.php">Logout</a></li>
+            <li class="font-semibold text-gray-800 mb-4" syle="float:right"><a href="logout.php">Logout</a></li> <!-- Changed this logout ref here -->
 			</ul>
 		</div>
         <div class ="p-2 text-2xl text-center"> Fuel Quote Form
